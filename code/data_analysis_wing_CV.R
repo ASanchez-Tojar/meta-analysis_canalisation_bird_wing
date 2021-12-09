@@ -376,3 +376,52 @@ body.variance.full.sex.sep.species.info <- merge(body.variance.full.sex.sep,spec
 body.variance.full.sex.sep.species.info <- as.data.frame(body.variance.full.sex.sep.species.info %>% filter(SD>0))
 
 
+######################################################################################################
+# Calculating lnCV
+######################################################################################################
+
+# calculating lnCV
+body.variance.full.sex.sep.species.info <- as.data.frame(escalc(measure = "CVLN", mi=mean, sdi=SD, ni=n,
+                                                                data=body.variance.full.sex.sep.species.info,
+                                                                add.measure=FALSE,append=TRUE))
+
+
+# generating a new species variable to account for repeated values for some species + phylogeny
+body.variance.full.sex.sep.species.info$species.updated.rep <- body.variance.full.sex.sep.species.info$species.updated
+
+# generating a unit level effect to model residual/within-study variance
+body.variance.full.sex.sep.species.info$effectsizeID <- 1:nrow(body.variance.full.sex.sep.species.info)
+
+
+# # quick funnel plots
+# # precision
+# plot(sqrt(1/body.variance.full.sex.sep.species.info$vi),exp(body.variance.full.sex.sep.species.info$yi))
+# abline(exp(mean(body.variance.full.sex.sep.species.info$yi,na.rm=T)),0)
+# abline(exp(median(body.variance.full.sex.sep.species.info$yi,na.rm=T)),0,col="red")
+# 
+# #se
+# plot(sqrt(body.variance.full.sex.sep.species.info$vi),exp(body.variance.full.sex.sep.species.info$yi))
+# abline(exp(mean(body.variance.full.sex.sep.species.info$yi,na.rm=T)),0)
+# abline(exp(median(body.variance.full.sex.sep.species.info$yi,na.rm=T)),0,col="red")
+# 
+# #se
+# plot(body.variance.full.sex.sep.species.info$vi,exp(body.variance.full.sex.sep.species.info$yi))
+# abline(exp(mean(body.variance.full.sex.sep.species.info$yi,na.rm=T)),0)
+# abline(exp(median(body.variance.full.sex.sep.species.info$yi,na.rm=T)),0,col="red")
+# 
+# #n original scale CV
+# plot(body.variance.full.sex.sep.species.info$n,(body.variance.full.sex.sep.species.info$yi))
+# abline((mean(body.variance.full.sex.sep.species.info$yi,na.rm=T)),0)
+# abline((median(body.variance.full.sex.sep.species.info$yi,na.rm=T)),0,col="red")
+# 
+# #n
+# plot(body.variance.full.sex.sep.species.info$n,exp(body.variance.full.sex.sep.species.info$yi))
+# abline(exp(mean(body.variance.full.sex.sep.species.info$yi,na.rm=T)),0)
+# abline(exp(median(body.variance.full.sex.sep.species.info$yi,na.rm=T)),0,col="red")
+# 
+# 
+# plot(body.variance.full.sex.sep.species.info$n,exp(body.variance.full.sex.sep.species.info$yi),xlim=c(0,100),ylim=c(0,0.16))
+
+# there are a couple of suspiciously high values, but checking the original papers did not clarify whether they are mistakes (SE vs SD), typos or just real, therefore, we are leacing them in
+
+
