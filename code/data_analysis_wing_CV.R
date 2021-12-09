@@ -78,7 +78,7 @@ estimates.CI <- function(model){
 
 
 # importing data
-body.variance.full <- read.csv("../data/final/final_bird_wing_size_dataset.csv",header=T,sep=",")
+body.variance.full <- read.csv("data/final/final_bird_wing_size_dataset.csv",header=T,sep=",")
 
 # reformatting some variables types to factors
 cols.factors <- c("species","source","reference_link","population_ID","reference","trait","unit","exclude","location","Measurement")
@@ -88,17 +88,6 @@ body.variance.full[cols.factors] <- lapply(body.variance.full[cols.factors], fac
 
 # species
 table(sort(body.variance.full$species))
-
-# # modifying some subspecies to species because they were not found at the open tree of life: this only seem to affect Calidris alpina hudsonia
-# # but, since Lanius meridionalis shows up as species and subspecies, we changed both subspecies to species level to make it possible to handle
-# body.variance.full$species <- recode(body.variance.full$species,
-#                                      # "Acanthis flammea islandica" = "Acanthis flammea",
-#                                      # "Anas cyanoptera septentrionalium" = "Anas cyanoptera",
-#                                      "Calidris alpina hudsonia" = "Calidris alpina",
-#                                      "Lanius meridionalis meridionalis" = "Lanius meridionalis",
-#                                      "Lanius meriodionalis koenigi" = "Lanius meriodionalis",
-#                                      # "Zonotrichia leucophrys oriantha" = "Zonotrichia leucophrys",
-#                                      .default = levels(body.variance.full$species))
 
 
 # trait
@@ -288,10 +277,10 @@ body.variance.full.sex.sep$species.updated <- factor(body.variance.full.sex.sep$
 # }
 # 
 # # saving the taxonomic data created on the 7th of December 2021 to speed the process in the future
-# save(taxa,file = "../data/taxa_Open_Tree_of_Life_20211207.RData")
+# save(taxa,file = "data/taxa_Open_Tree_of_Life_20211207.RData")
 
 # loading the taxonomic data created on the 31st of August 2021
-load("../data/taxa_Open_Tree_of_Life_20211207.RData") #taxa
+load("data/taxa_Open_Tree_of_Life_20211207.RData") #taxa
 
 
 # everything seems in order now
@@ -316,7 +305,7 @@ load("../data/taxa_Open_Tree_of_Life_20211207.RData") #taxa
 # 
 # 
 # # we can now save the tree
-# save(tree_random, file = "../data/tree_random.Rdata")
+# save(tree_random, file = "data/tree_random.Rdata")
 # 
 # 
 # # compute branch lengths of tree
@@ -329,12 +318,12 @@ load("../data/taxa_Open_Tree_of_Life_20211207.RData") #taxa
 # phylo_cor <- vcv(phylo_branch, cor = T)
 # 
 # # finally, save matrix for future analyses
-# save(phylo_cor, file = "../data/phylo_cor.Rdata")
+# save(phylo_cor, file = "data/phylo_cor.Rdata")
 
 
 # loading tree and matrix
-load("../data/tree_random.Rdata")
-load("../data/phylo_cor.Rdata")
+load("data/tree_random.Rdata")
+load("data/phylo_cor.Rdata")
 
 
 # # we can then plot the tree
@@ -362,18 +351,16 @@ species.database <- unique(species.database[,c("species.updated","migratory","mi
 species.database <- species.database[order(species.database$species.updated),]
 
 # saving database so that AST and mostly KR can fill this information up for the analyses
-
-# without location included
-write.csv(unique(species.database[,c("species.updated","migratory","migratory.comments",
-                                     "feeding.type.aerial","feeding.type.comments")]),
-          "../data/final/final_bird_species_list.csv",row.names=FALSE)
+# write.csv(unique(species.database[,c("species.updated","migratory","migratory.comments",
+#                                      "feeding.type.aerial","feeding.type.comments")]),
+#           "data/final/final_bird_species_list.csv",row.names=FALSE)
 
 
 ######################################################################################################
 # Then, adding the species-specific information about migration type and feeding type
 
 # importing data
-species.information <- read.csv("../data/final/final_bird_species_list_migration_and_feeding.csv",header=T,sep=",")
+species.information <- read.csv("data/final/final_bird_species_list_migration_and_feeding.csv",header=T,sep=",")
 
 # reformatting some variables types to factors
 cols.factors.2 <- c("species.updated","migratory","feeding.type.aerial")
@@ -387,3 +374,5 @@ body.variance.full.sex.sep.species.info <- merge(body.variance.full.sex.sep,spec
 
 # last fix to the dataset, removing an estimate based on three individuals which has an SD==0
 body.variance.full.sex.sep.species.info <- as.data.frame(body.variance.full.sex.sep.species.info %>% filter(SD>0))
+
+
