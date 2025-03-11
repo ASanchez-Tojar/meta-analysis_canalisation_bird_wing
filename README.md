@@ -48,39 +48,39 @@ Platform: x86_64-w64-mingw32/x64 (64-bit)
 Running under: Windows 10 x64 (build 19044)
 
 Packages used: 
-rsvg_2.6.1          
-rgbif_3.8.1         
-ggcorrplot_0.1.4.1  
-clubSandwich_0.5.10 
-orchaRd_2.0         
-ggpubr_0.6.0       
-RColorBrewer_1.1-3  
-ggtree_3.10.1       
-ggstance_0.3.6      
-patchwork_1.3.0     
-viridis_0.6.5       
-viridisLite_0.4.2  
-cowplot_1.1.1       
-visdat_0.6.0        
-ggsignif_0.6.4      
-wesanderson_0.3.7   
-diagram_1.6.5       
-shape_1.4.6.1      
-treebase_0.1.4      
-metafor_4.6-0       
-numDeriv_2016.8-1.1 
-metadat_1.2-0       
-Matrix_1.6-1        
-ggstatsplot_0.12.5 
-lubridate_1.9.4     
-forcats_1.0.0       
-stringr_1.5.1       
-dplyr_1.1.4         
-purrr_1.0.2         
-readr_2.1.5        
-tidyr_1.3.1         
-tibble_3.2.1        
-ggplot2_3.5.1       
-tidyverse_2.0.0     
-rotl_3.1.0          
-ape_5.7-1          
+- rsvg_2.6.1          
+- rgbif_3.8.1         
+- ggcorrplot_0.1.4.1  
+- clubSandwich_0.5.10
+- orchaRd_2.0
+- ggpubr_0.6.0       
+- RColorBrewer_1.1-3  
+- ggtree_3.10.1       
+- ggstance_0.3.6      
+- patchwork_1.3.0     
+- viridis_0.6.5       
+- viridisLite_0.4.2  
+- cowplot_1.1.1       
+- visdat_0.6.0        
+- ggsignif_0.6.4      
+- wesanderson_0.3.7   
+- diagram_1.6.5       
+- shape_1.4.6.1      
+- treebase_0.1.4      
+- metafor_4.6-0       
+- numDeriv_2016.8-1.1
+- metadat_1.2-0
+- Matrix_1.6-1        
+- ggstatsplot_0.12.5
+- lubridate_1.9.4
+- forcats_1.0.0       
+- stringr_1.5.1       
+- dplyr_1.1.4         
+- purrr_1.0.2         
+- readr_2.1.5        
+- tidyr_1.3.1         
+- tibble_3.2.1        
+- ggplot2_3.5.1       
+- tidyverse_2.0.0
+- rotl_3.1.0
+- ape_5.7-1
