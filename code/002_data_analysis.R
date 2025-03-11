@@ -741,8 +741,8 @@ predict(model_intercept_only_VCV050_studyID, transf=exp)
 #                                                       test = "t")
 # 
 # save(model_intercept_only_VCV050_studyID_rawlnCV,
-#      file="models/model_intercept_only_VCV050_studyID_rawlnCV.RData")
-load("models/model_intercept_only_VCV050_studyID_rawlnCV.RData")
+#      file="models/sensitivity_analyses/model_intercept_only_VCV050_studyID_rawlnCV.RData")
+load("models/sensitivity_analyses/model_intercept_only_VCV050_studyID_rawlnCV.RData")
 
 # summary(model_intercept_only_VCV050_studyID_rawlnCV)
 # predict(model_intercept_only_VCV050_studyID_rawlnCV, transf=exp)
@@ -770,8 +770,8 @@ load("models/model_intercept_only_VCV050_studyID_rawlnCV.RData")
 #                                                 test = "t")
 # 
 # save(model_intercept_only_VCV050_studyID_n,
-#      file="models/model_intercept_only_VCV050_studyID_n.RData")
-load("models/model_intercept_only_VCV050_studyID_n.RData")
+#      file="models/sensitivity_analyses/model_intercept_only_VCV050_studyID_n.RData")
+load("models/sensitivity_analyses/model_intercept_only_VCV050_studyID_n.RData")
 
 # summary(model_intercept_only_VCV050_studyID_n)
 # round(exp(model_intercept_only_VCV050_studyID_n$beta)*100,2)
@@ -802,11 +802,11 @@ body.CV.final$mean.c <- body.CV.final$mean - median(body.CV.final$mean)
 #                                                    test = "t")
 # 
 # save(model_intercept_only_VCV050_studyID_mean,
-#      file="models/model_intercept_only_VCV050_studyID_mean.RData")
-load("models/model_intercept_only_VCV050_studyID_mean.RData")
+#      file="models/sensitivity_analyses/model_intercept_only_VCV050_studyID_mean.RData")
+load("models/sensitivity_analyses/model_intercept_only_VCV050_studyID_mean.RData")
 # save(model_intercept_only_VCV050_studyID_mean,
-#     file="models/model_intercept_only_VCV050_studyID_lnmean.RData")
-load("models/model_intercept_only_VCV050_studyID_lnmean.RData")
+#     file="models/sensitivity_analyses/model_intercept_only_VCV050_studyID_lnmean.RData")
+load("models/sensitivity_analyses/model_intercept_only_VCV050_studyID_lnmean.RData")
 
 # summary(model_intercept_only_VCV050_studyID_mean)
 # round(exp(model_intercept_only_VCV050_studyID_mean$beta)*100,2)
