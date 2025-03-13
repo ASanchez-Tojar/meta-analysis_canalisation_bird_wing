@@ -25,11 +25,11 @@ The repository consists of an Rproject with 5 scripts and 4 folders containing t
 Information about folders and files within:
 Folders:
 *	[code](https://github.com/ASanchez-Tojar/meta-analysis_canalisation_bird_wing/tree/main/code): contains all five scripts used to process and analyse data, as well as to run sensitivity analyses and generate the figures for the project.
-    - [001_data_cleaning](https://github.com/ASanchez-Tojar/meta-analysis_canalisation_bird_wing/blob/main/code/001_data_cleaning): used to process and clean our data.
-    -	[002_data_analysis](https://github.com/ASanchez-Tojar/meta-analysis_canalisation_bird_wing/blob/main/code/002_data_analysis): used to run the main analyses (as well as some of the sensitivity analyses).
-    -	[003_re-analysis_of_Nakagawa_et_al_2015](https://github.com/ASanchez-Tojar/meta-analysis_canalisation_bird_wing/blob/main/code/003_re-analysis_of_Nakagawa_et_al_2015): used to re-analyse the data from Nakagawa et al. (2015).
-    -	[004_additional_sensitivity_analyses](https://github.com/ASanchez-Tojar/meta-analysis_canalisation_bird_wing/blob/main/code/004_additional_sensitivity_analyses): used to run additional sensitivity analyses.
-    -	[005_phylogeny_figures](https://github.com/ASanchez-Tojar/meta-analysis_canalisation_bird_wing/blob/main/code/005_phylogeny_figures): used to generate Figure 1 (phylogenetic tree with effect sizes).
+    - [001_data_cleaning](https://github.com/ASanchez-Tojar/meta-analysis_canalisation_bird_wing/blob/main/code/001_data_cleaning.R): used to process and clean our data.
+    -	[002_data_analysis](https://github.com/ASanchez-Tojar/meta-analysis_canalisation_bird_wing/blob/main/code/002_data_analysis.R): used to run the main analyses (as well as some of the sensitivity analyses).
+    -	[003_re-analysis_of_Nakagawa_et_al_2015](https://github.com/ASanchez-Tojar/meta-analysis_canalisation_bird_wing/blob/main/code/003_re-analysis_of_Nakagawa_et_al_2015.R): used to re-analyse the data from Nakagawa et al. (2015).
+    -	[004_additional_sensitivity_analyses](https://github.com/ASanchez-Tojar/meta-analysis_canalisation_bird_wing/blob/main/code/004_additional_sensitivity_analyses.R): used to run additional sensitivity analyses.
+    -	[005_phylogeny_figures](https://github.com/ASanchez-Tojar/meta-analysis_canalisation_bird_wing/blob/main/code/005_phylogeny_figures.R): used to generate Figure 1 (phylogenetic tree with effect sizes).
 
 *	[data](https://github.com/ASanchez-Tojar/meta-analysis_canalisation_bird_wing/tree/main/data): contains all [final](https://github.com/ASanchez-Tojar/meta-analysis_canalisation_bird_wing/tree/main/data/final) datasets used in the analyses as well as the [phylogeny](https://github.com/ASanchez-Tojar/meta-analysis_canalisation_bird_wing/tree/main/data/phylogeny) data generated and used for the phylogenetic multilevel meta-analyses. The folder [Nakagawa_et_al_2015](https://github.com/ASanchez-Tojar/meta-analysis_canalisation_bird_wing/tree/main/data/Nakagawa_et_al_2015) contains the data corresponding to the re-analysis of the data provided by Nakagawa et al. (2015).
 
@@ -38,7 +38,7 @@ Folders:
 *	[models](https://github.com/ASanchez-Tojar/meta-analysis_canalisation_bird_wing/tree/main/models): contains all models run to faciliate reproducibility.
 
 ## Metadata:
-We provide the metadata for the raw dataset [here](https://github.com/ASanchez-Tojar/meta-analysis_canalisation_bird_wing/blob/main/data/METADATA.csv).
+We provide the metadata for the raw dataset [here](https://github.com/ASanchez-Tojar/meta-analysis_canalisation_bird_wing/blob/main/data/final/METADATA.csv).
 
 ## Software and {Packages} used
 R version 4.3.1 (2023-06-16 ucrt)
