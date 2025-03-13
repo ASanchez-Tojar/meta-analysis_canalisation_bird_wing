@@ -1,1 +1,41 @@
-
+variable.name,description
+broader.comments,general comments about data extraction for feeding and migratory behavour
+comments,general comments about data extraction for feeding and migratory behavour
+CV,backtransformed from lnCV as exp(yi)*100
+effectsize_ID,unique ID for each effect size needed for modeling within-study variability in multilevel models
+feeding.type,"categorises each species as fully, partially vs non-aerial feeding"
+feeding.type.comments,comments associated with the extraction of feeding.type
+feeding.type.pop.level,categorises each species as fully vs non-aerial feeding
+feeding.type.pop.level.num,"an equivalent version of variable feeding.type.pop.level but as numeric (non-aerial feeding = -1, fully aerial feeding = 1)"
+I,mean-scale variation as I = SD^2/mean^2 (only used as exploration in the code)
+location,information extracted from the original articles regarding where the measured birds come from
+mean,mean wing length extracted from the original articles
+mean.c,median-centered mean for exploration analysis: mean wing length - median(mean wing length)
+mean.female.log,log of female mean wing length extracted from the original articles
+mean.male.log,log of male mean wing length extracted from the original articles
+measurement_notes,comments about how the wing length measurements were taken
+migratory,"categorises each species as fully, partially vs non-migratory"
+migratory.comments,comments associated with the extraction of migratory
+migratory.inc.vagrants,"categorises each species as fully, partially vs non-migratory, treating vagrants as fully migratory instead of non-migratory"
+migratory.inc.vagrants.pop.level,"categorises each population from each species as fully vs non-migratory, treating vagrants as fully migratory instead of non-migratory"
+migratory.inc.vagrants.pop.level.num,"an equivalent version of variable migratory.inc.vagrants.pop.level but as numeric (non-migratory = -1, fully migratory = 1), treating vagrants as fully migratory instead of non-migratory"
+migratory.pop.level,categorises each population from each species as fully vs non-migratory
+migratory.pop.level.num,"an equivalent version of variable migratory.pop.level but as numeric (non-migratory = -1, fully migratory = 1)"
+n,number of individuals measured to generate the mean and SD values
+pair_ID,unique ID for each male-female pair estimates obtained from the same population and sampling event
+population_ID,unique ID for the population from which the birds were measured
+reference_link,"link to the original article, often a DOI address"
+SD,SD associated with the mean wing length extracted from the original articles
+SD.female.log,log of female SD associated with the mean wing length extracted from the original articles
+SD.male.log,log of male SD associated with the mean wing length extracted from the original articles
+sex,categorises estimates based on whether they come from females or males
+sex.num,"an equivalent version of variable sex but as numeric (female = -1, male = 1)"
+species,species names as extracted from the original articles
+species.updated,species names updated based on the Open Tree Taxonomy
+species.updated.rep,copy of species.updated needed for fitting the phylogenetic relationship matrix as a random effect in the multilevel models
+study_ID,unique ID for each of the studies from which data were extracted
+subset,categorises studies on whether they come from our previous article (Reinhold and Enqvist 2013) or from our new compilation
+trait,"categorises estimates as wing length, wing chord or wing based on how they were reported in the original articles despite all referring to wing length measurements"
+unit,mm throughout
+vi,sampling variance associated to lnCV calculated using escalc()
+yi,lnCV calculated using escalc()
