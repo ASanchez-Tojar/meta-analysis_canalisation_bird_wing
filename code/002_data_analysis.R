@@ -947,13 +947,30 @@ round(m2_ml(model_intercept_only_VCV050_studyID),3)
 # M total = 0.005 is way smaller than CV due to the very small meta-analytic 
 # mean
 
-
 # M combines the strengths of variance-scaled (I2) and mean-scaled metrics (CVH) 
 # and has been suggested as a remedy for the problems of both I2 and CVH in 
 # scenarios such as those observed in our dataset. Thus, together with total 
-# variance (𝜎2), we consider M to better reflect heterogeneity in our dataset. 
+# variance (sigma2), we consider M to better reflect heterogeneity in our dataset. 
 # For equations and more information about the interpretation of these 
 # heterogeneity metrics, see Yang et al. (2024)
+
+
+# The following two calculations are not reported in the manuscript 
+
+# for insights into the phylogenetic effect or signal, which reflects how
+# shared evolutionary histories among species explain patterns of similarity 
+# (e.g., in trait values; Freckleton, Harvey & Pagel 2002), we can calculate
+# phylogenetic heritability, h2 (Lynch 1991; Nakagawa & Santos 2012) as:
+round(model_intercept_only_VCV050_studyID$sigma2[2]/sum(model_intercept_only_VCV050_studyID$sigma2),2)
+
+# Another parameter for assessing the phylogenetic signal is Pagel's lambda
+# (Pagel 1999; Freckleton, Harvey & Pagel 2002; Cinar, Nakagawa & Viechtbauer 
+# 2022), which unlike h2, reflects the proportion of phylogenetic variance
+# relative to the variance across species.
+round(model_intercept_only_VCV050_studyID$sigma2[2]/(model_intercept_only_VCV050_studyID$sigma2[1] + model_intercept_only_VCV050_studyID$sigma2[2]),2)
+
+# # variance-mean-standardized version
+# round(model_intercept_only_VCV050_studyID$sigma2[2]^2/(model_intercept_only_VCV050_studyID$sigma2[2]^2+model_intercept_only_VCV050_studyID$b[1]^2),5)
 
 
 ################################################################################
@@ -1062,10 +1079,10 @@ p.M <- ggplot(h_status, aes(x = levels, y = Ms)) +
 
 # info here: https://patchwork.data-imaginist.com/articles/guides/layout.html
 
-# saving the figure
-png(filename = 'figures/supplementary_figures/Figure_S4_Heterogeneity_pluralistic_approach.png', 
-    width = 19, height = 19, units = 'cm', 
-    res = 600)
+# # saving the figure
+# png(filename = 'figures/supplementary_figures/Figure_S4_Heterogeneity_pluralistic_approach.png', 
+#     width = 19, height = 19, units = 'cm', 
+#     res = 600)
 
 #png(filename = "all.png", width = 9, height = 8, units = "in", type = "windows", res = 400)
 p.sigma + p.I2 + p.CV + p.M + 
@@ -1075,7 +1092,7 @@ p.sigma + p.I2 + p.CV + p.M +
   theme(plot.tag = element_text(face = "bold"),
         axis.text.x = element_text(angle=45, vjust=1.0, hjust=1))
 
-dev.off()
+#dev.off()
 
 
 ################################################################################
@@ -1176,17 +1193,17 @@ orchard.plot.sex <- orchaRd::orchard_plot(metaregression_unimoderator_sex,
 # 
 # dev.off()
 
-# saving the figure
-png(filename = 'figures/supplementary_figures/Figure_S5_Sex_Chromosome_Hypothesis.png',
-    width = 21, height = 10, units = 'cm',
-    res = 600)
+# # saving the figure
+# png(filename = 'figures/supplementary_figures/Figure_S5_Sex_Chromosome_Hypothesis.png',
+#     width = 21, height = 10, units = 'cm',
+#     res = 600)
 
 # supplementary material
 orchard.plot.sex +
   scale_y_continuous(limits = c(0,14),
                      breaks = seq(0,14,1))
 
-dev.off()
+#dev.off()
 
 ################################################################################
 # FEEDING TYPE: species-specific
@@ -1270,10 +1287,10 @@ orchard.plot.feeding.type.cropped <- orchard.plot.feeding.type +
 
 orchard.plot.feeding.type.cropped
 
-# saving the figure
-png(filename = 'figures/supplementary_figures/Figure_S6_Feeding_species_level.png', 
-    width = 21, height = 10, units = 'cm', 
-    res = 600)
+# # saving the figure
+# png(filename = 'figures/supplementary_figures/Figure_S6_Feeding_species_level.png', 
+#     width = 21, height = 10, units = 'cm', 
+#     res = 600)
 
 # supplementary material
 orchard.plot.feeding.type + 
@@ -1283,7 +1300,7 @@ orchard.plot.feeding.type +
                      breaks = seq(0,14,1)) +
   theme(axis.text.y = element_text(size = 7.5))
 
-dev.off()
+#dev.off()
 
 ################################################################################
 # MIGRATORY: species-specific
@@ -1367,10 +1384,10 @@ orchard.plot.migratory.cropped <- orchard.plot.migratory +
   scale_y_continuous(limits = c(1,6),
                      breaks = seq(1,6,0.5))
 
-# saving the figure
-png(filename = 'figures/supplementary_figures/Figure_S7_Migratory_species_level.png', 
-    width = 21, height = 10, units = 'cm', 
-    res = 600)
+# # saving the figure
+# png(filename = 'figures/supplementary_figures/Figure_S7_Migratory_species_level.png', 
+#     width = 21, height = 10, units = 'cm', 
+#     res = 600)
 
 # supplementary material
 orchard.plot.migratory + 
@@ -1380,7 +1397,7 @@ orchard.plot.migratory +
                      breaks = seq(0,14,1)) +
   theme(axis.text.y = element_text(size = 7.5))
 
-dev.off()
+#dev.off()
 
 ################################################################################
 # FEEDING AND MIGRATORY: species-specific
@@ -1488,10 +1505,10 @@ orchard.plot.feeding.type.pop.level.cropped <- orchard.plot.feeding.type.pop.lev
   scale_y_continuous(limits = c(1,6),
                      breaks = seq(1,6,0.5))
 
-# saving the figure
-png(filename = 'figures/supplementary_figures/Figure_S8_Feeding_population_level.png', 
-    width = 21, height = 10, units = 'cm', 
-    res = 600)
+# # saving the figure
+# png(filename = 'figures/supplementary_figures/Figure_S8_Feeding_population_level.png', 
+#     width = 21, height = 10, units = 'cm', 
+#     res = 600)
 
 # supplementary material
 orchard.plot.feeding.type.pop.level + 
@@ -1500,7 +1517,7 @@ orchard.plot.feeding.type.pop.level +
   scale_y_continuous(limits = c(0,14),
                      breaks = seq(0,14,1))
 
-dev.off()
+#dev.off()
 
 ################################################################################
 # MIGRATORY: population-specific
@@ -1581,10 +1598,10 @@ orchard.plot.migratory.pop.level.cropped <- orchard.plot.migratory.pop.level +
   scale_y_continuous(limits = c(1,6),
                      breaks = seq(1,6,0.5))
 
-# saving the figure
-png(filename = 'figures/supplementary_figures/Figure_S9_Migratory_population_level.png', 
-    width = 21, height = 10, units = 'cm', 
-    res = 600)
+# # saving the figure
+# png(filename = 'figures/supplementary_figures/Figure_S9_Migratory_population_level.png', 
+#     width = 21, height = 10, units = 'cm', 
+#     res = 600)
 
 # supplementary material
 orchard.plot.migratory.pop.level + 
@@ -1593,7 +1610,7 @@ orchard.plot.migratory.pop.level +
   scale_y_continuous(limits = c(0,14),
                      breaks = seq(0,14,1))
 
-dev.off()
+#dev.off()
 
 
 ################################################################################
@@ -1628,18 +1645,15 @@ summary(metaregression_feeding_and_migratory_pop_level,3)
 round(r2_ml(metaregression_feeding_and_migratory_pop_level)*100,2)
 
 
-
-
-
 ################################################################################
 # Plotting all migration and feeding tests
 ################################################################################
 
-# FIGURE 2
-# saving the figure
-png(filename = 'figures/Figure_2_Feeding_and_Migratory_behaviours.png', 
-    width = 21, height = 21, units = 'cm', 
-    res = 600)
+# # FIGURE 2
+# # saving the figure
+# png(filename = 'figures/Figure_2_Feeding_and_Migratory_behaviours.png', 
+#     width = 21, height = 21, units = 'cm', 
+#     res = 600)
 
 #png(filename = "all.png", width = 9, height = 8, units = "in", type = "windows", res = 400)
 orchard.plot.feeding.type.cropped +
@@ -1653,4 +1667,4 @@ orchard.plot.feeding.type.cropped +
         axis.text.y = element_text(angle=90, vjust=0.5, hjust=0.5, size = 8),
         axis.title = element_text(size = 16))
 
-dev.off()
+#dev.off()
