@@ -16,7 +16,7 @@
 
 ---
 
-Klaus Reinhold, Alfredo Sánchez-Tójar. 2025. Wing length canalisation and behaviour across birds: a phylogenetic meta-analysis of variance. Preprint available at: TBA
+Klaus Reinhold, Alfredo Sánchez-Tójar. 2025. Wing length canalisation and behaviour across birds: a phylogenetic meta-analysis of variance. EcoEvoRxiv. Preprint available at: https://doi.org/10.32942/X2PG92
 
 ---
 
