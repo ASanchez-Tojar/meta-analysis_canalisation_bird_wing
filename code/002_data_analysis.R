@@ -107,7 +107,9 @@ estimates.CI <- function(model){
 ################################################################################
 
 # importing final dataset
-body.CV.final <- read.csv("data/final/04_final_full_and_clean_bird_wing_size_dataset.csv",
+# body.CV.final <- read.csv("data/final/04_final_full_and_clean_bird_wing_size_dataset.csv",
+#                           header=T,sep=",")
+body.CV.final <- read.csv("data/final/04_B_final_full_and_clean_bird_wing_size_dataset.csv",
                           header=T,sep=",")
 
 # quick view
@@ -116,7 +118,8 @@ summary(body.CV.final)
 
 
 # converting some variables types to factors
-cols.factors <- c("population_ID","species.updated","species",
+cols.factors <- c("population_ID","species.updated.new",
+                  "species.updated","species",
                   "study_ID","reference_link","subset",
                   "trait","unit","measurement_notes",
                   "pair_ID","sex","migratory","feeding.type",
@@ -134,6 +137,10 @@ summary(body.CV.final)
 # generating a new species variable to account for repeated values for some 
 # species + phylogeny (sensu Cinar et al. 2020, MEE)
 body.CV.final$species.updated.rep <- body.CV.final$species.updated
+
+# generating a new species variable to account for repeated values for some 
+# species + phylogeny (sensu Cinar et al. 2020, MEE)
+body.CV.final$species.updated.new.rep <- body.CV.final$species.updated.new
 
 # generating a unit level effect to model residual/within-study variance
 body.CV.final$effectsize_ID <- 1:nrow(body.CV.final)
@@ -153,6 +160,13 @@ load("data/phylogeny/tree_random_20240909.Rdata")
 # phylogenetic matrix: phylo_cor
 load("data/phylogeny/phylo_cor_20240909.Rdata")
 
+# tree: mytree_ultra The tree based on the new McTavish et al. 2025, constructed 
+# after peer-review)
+load("data/phylogeny/tree_McTavish2025.Rdata")
+
+# phylogenetic matrix: phylo_cor_new (The matrix based on the new McTavish et 
+# al. 2025 tree constructed after peer-review)
+load("data/phylogeny/phylo_cor_McTavish2025.Rdata")
 
 ################################################################################
 # Calculating our effect size of interest: lnCV
@@ -437,6 +451,33 @@ body.CV.final$migratory.inc.vagrants.pop.level.num <- ifelse(body.CV.final$migra
 
 summary(body.CV.final)
 head(body.CV.final)
+
+
+################################################################################
+# exploring the 3 x 3 matrix overlap requested by the reviewer
+
+# 3x3 cross-tabulation of migratory behaviour × feeding type
+table(body.CV.final$migratory, body.CV.final$feeding.type)
+
+# Add percentages for clarity
+round(prop.table(table(body.CV.final$migratory, body.CV.final$feeding.type))*100,1)
+
+
+# # 3x3 cross-tabulation of migratory behaviour × feeding type
+# table(body.CV.final$migratory.pop.level, body.CV.final$feeding.type.pop.level)
+# 
+# # Add percentages for clarity
+# round(prop.table(table(body.CV.final$migratory.pop.level, body.CV.final$feeding.type.pop.level))*100,1)
+
+##########
+# At the species level
+species_level <- body.CV.final %>%
+  distinct(species.updated.new.rep, migratory, feeding.type)
+
+table(species_level$migratory, species_level$feeding.type)
+
+# add percentages
+round(prop.table(table(species_level$migratory, species_level$feeding.type))*100, 1)
 
 
 # # exporting the final dataset used for the analyses performed in this script
