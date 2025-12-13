@@ -128,6 +128,14 @@ load("data/phylogeny/tree_random_20240909.Rdata")
 # phylogenetic matrix: phylo_cor
 load("data/phylogeny/phylo_cor_20240909.Rdata")
 
+# tree: mytree_ultra The tree based on the new McTavish et al. 2025, constructed 
+# after peer-review)
+load("data/phylogeny/tree_McTavish2025.Rdata")
+
+# phylogenetic matrix: phylo_cor_new (The matrix based on the new McTavish et 
+# al. 2025 tree constructed after peer-review)
+load("data/phylogeny/phylo_cor_McTavish2025.Rdata")
+
 
 
 ################################################################################
@@ -139,13 +147,13 @@ load("data/phylogeny/phylo_cor_20240909.Rdata")
 ################################################################################
 
 # converting some variables types to factors
-cols.factors <- c("population_ID","species.updated","species",
+cols.factors <- c("population_ID","species.updated.new","species.updated","species",
                   "study_ID","reference_link","subset",
                   "trait","unit","measurement_notes",
                   "pair_ID","sex","migratory","feeding.type",
                   "migratory.pop.level","feeding.type.pop.level",
                   "migratory.inc.vagrants.pop.level","migratory.inc.vagrants",
-                  "species.updated.rep")
+                  "species.updated.rep","species.updated.new.rep")
 
 body.CV.final[cols.factors] <- lapply(body.CV.final[cols.factors], 
                                       factor)
@@ -168,8 +176,8 @@ body.CV.final$migratory.inc.vagrants <- factor(body.CV.final$migratory.inc.vagra
                                                         "fully migratory"))
 
 body.CV.final$migratory.inc.vagrants.pop.level <- factor(body.CV.final$migratory.inc.vagrants.pop.level, 
-                                               levels=c("non-migratory",
-                                                        "fully migratory"))
+                                                         levels=c("non-migratory",
+                                                                  "fully migratory"))
 
 summary(body.CV.final)
 
@@ -190,211 +198,296 @@ VCV.0.50.study_ID <- impute_covariance_matrix(vi = body.CV.final$vi,
 # MIGRATORY: species-specific INCLUDING VAGRANTS
 ################################################################################
 
-# metaregression_unimoderator_migratory_inc_vagrants <- rma.mv(yi = yi,
-#                                                              V = VCV.0.50.study_ID,
-#                                                              mod = ~ 1 +
-#                                                                migratory.inc.vagrants,
-#                                                              random = list(~ 1 | species.updated.rep,
-#                                                                            ~ 1 | species.updated,
-#                                                                            ~ 1 | study_ID,
-#                                                                            ~ 1 | population_ID,
-#                                                                            ~ 1 | pair_ID,
-#                                                                            ~ 1 | effectsize_ID),
-#                                                              R = list(species.updated = phylo_cor),
-#                                                              data=body.CV.final,
-#                                                              method="REML",
-#                                                              test="t")
+# metaregression_unimoderator_migratory_inc_vagrants_new <- rma.mv(yi = yi,
+#                                                                  #metaregression_unimoderator_migratory_inc_vagrants <- rma.mv(yi = yi,
+#                                                                  V = VCV.0.50.study_ID,
+#                                                                  mod = ~ 1 +
+#                                                                    migratory.inc.vagrants,
+#                                                                  random = list(~ 1 | species.updated.new.rep,
+#                                                                                ~ 1 | species.updated.new,
+#                                                                                # ~ 1 | species.updated.rep,
+#                                                                                # ~ 1 | species.updated,
+#                                                                                ~ 1 | study_ID,
+#                                                                                ~ 1 | population_ID,
+#                                                                                ~ 1 | pair_ID,
+#                                                                                ~ 1 | effectsize_ID),
+#                                                                  #R = list(species.updated = phylo_cor),
+#                                                                  R = list(species.updated.new = phylo_cor_new),
+#                                                                  data=body.CV.final,
+#                                                                  method="REML",
+#                                                                  test="t")
 # 
 # save(metaregression_unimoderator_migratory_inc_vagrants,
 #      file="models/sensitivity_analyses/metaregression_unimoderator_migratory_inc_vagrants.RData")
 load("models/sensitivity_analyses/metaregression_unimoderator_migratory_inc_vagrants.RData")
 
+# save(metaregression_unimoderator_migratory_inc_vagrants_new,
+#      file="models/sensitivity_analyses/metaregression_unimoderator_migratory_inc_vagrants_new.RData")
+load("models/sensitivity_analyses/metaregression_unimoderator_migratory_inc_vagrants_new.RData")
 
-summary(metaregression_unimoderator_migratory_inc_vagrants,3)
+# summary(metaregression_unimoderator_migratory_inc_vagrants,3)
+summary(metaregression_unimoderator_migratory_inc_vagrants_new,3)
 
 # getting marginal R2
-round(r2_ml(metaregression_unimoderator_migratory_inc_vagrants)*100,2)
-
+# round(r2_ml(metaregression_unimoderator_migratory_inc_vagrants)*100,2)
+round(r2_ml(metaregression_unimoderator_migratory_inc_vagrants_new)*100,2)
 
 # the equivalent model but without intercept 
-# metaregression_unimoderator_migratory_inc_vagrants.nointercept <- rma.mv(yi = yi,
-#                                                                          V = VCV.0.50.study_ID,
-#                                                                          mod = ~ -1 +
-#                                                                            migratory.inc.vagrants,
-#                                                                          random = list(~ 1 | species.updated.rep,
-#                                                                                        ~ 1 | species.updated,
-#                                                                                        ~ 1 | study_ID,
-#                                                                                        ~ 1 | population_ID,
-#                                                                                        ~ 1 | pair_ID,
-#                                                                                        ~ 1 | effectsize_ID),
-#                                                                          R = list(species.updated = phylo_cor),
-#                                                                          data=body.CV.final,
-#                                                                          method="REML",
-#                                                                          test="t")
+# metaregression_unimoderator_migratory_inc_vagrants.nointercept_new <- rma.mv(yi = yi,
+#                                                                              #metaregression_unimoderator_migratory_inc_vagrants.nointercept <- rma.mv(yi = yi,
+#                                                                              V = VCV.0.50.study_ID,
+#                                                                              mod = ~ -1 +
+#                                                                                migratory.inc.vagrants,
+#                                                                              random = list(~ 1 | species.updated.new.rep,
+#                                                                                            ~ 1 | species.updated.new,
+#                                                                                            # ~ 1 | species.updated.rep,
+#                                                                                            # ~ 1 | species.updated,
+#                                                                                            ~ 1 | study_ID,
+#                                                                                            ~ 1 | population_ID,
+#                                                                                            ~ 1 | pair_ID,
+#                                                                                            ~ 1 | effectsize_ID),
+#                                                                              #R = list(species.updated = phylo_cor),
+#                                                                              R = list(species.updated.new = phylo_cor_new),
+#                                                                              data=body.CV.final,
+#                                                                              method="REML",
+#                                                                              test="t")
 # 
 # save(metaregression_unimoderator_migratory_inc_vagrants.nointercept,
 #      file="models/sensitivity_analyses/metaregression_unimoderator_migratory_inc_vagrants_nointercept.RData")
 load("models/sensitivity_analyses/metaregression_unimoderator_migratory_inc_vagrants_nointercept.RData")
 
+# save(metaregression_unimoderator_migratory_inc_vagrants.nointercept_new,
+#      file="models/sensitivity_analyses/metaregression_unimoderator_migratory_inc_vagrants_nointercept_new.RData")
+load("models/sensitivity_analyses/metaregression_unimoderator_migratory_inc_vagrants_nointercept_new.RData")
+
 # getting marginal R2
-round(r2_ml(metaregression_unimoderator_migratory_inc_vagrants.nointercept)*100,2)
+# round(r2_ml(metaregression_unimoderator_migratory_inc_vagrants.nointercept)*100,2)
+# 
+# summary(metaregression_unimoderator_migratory_inc_vagrants.nointercept,3)
+# round(exp(metaregression_unimoderator_migratory_inc_vagrants.nointercept$beta)*100,2)
+# round(exp(metaregression_unimoderator_migratory_inc_vagrants.nointercept$ci.lb)*100,2)
+# round(exp(metaregression_unimoderator_migratory_inc_vagrants.nointercept$ci.ub)*100,2)
 
-summary(metaregression_unimoderator_migratory_inc_vagrants.nointercept,3)
-round(exp(metaregression_unimoderator_migratory_inc_vagrants.nointercept$beta)*100,2)
-round(exp(metaregression_unimoderator_migratory_inc_vagrants.nointercept$ci.lb)*100,2)
-round(exp(metaregression_unimoderator_migratory_inc_vagrants.nointercept$ci.ub)*100,2)
+round(r2_ml(metaregression_unimoderator_migratory_inc_vagrants.nointercept_new)*100,2)
 
+summary(metaregression_unimoderator_migratory_inc_vagrants.nointercept_new,3)
+round(exp(metaregression_unimoderator_migratory_inc_vagrants.nointercept_new$beta)*100,2)
+round(exp(metaregression_unimoderator_migratory_inc_vagrants.nointercept_new$ci.lb)*100,2)
+round(exp(metaregression_unimoderator_migratory_inc_vagrants.nointercept_new$ci.ub)*100,2)
 
 ################################################################################
 # plotting results
 
 orchard.plot.migratory.inc.vagrants <- orchaRd::orchard_plot(metaregression_unimoderator_migratory_inc_vagrants, 
                                                              mod = "migratory.inc.vagrants", 
-                                                             group = "species.updated.rep", 
+                                                             group = "species.updated.new.rep", 
                                                              xlab = "Effect size (CV %)",
                                                              trunk.size = 1.55,
                                                              branch.size = 3.5,
                                                              twig.size = 1.25,
                                                              transfm  = "percent",
                                                              colour = F)
+
+
+# saving the figure
+# png(filename = 'figures/supplementary_figures/Figure_S10_Migratory_species_level_vagrants.png',
+#     width = 21, height = 10, units = 'cm',
+#     res = 600)
+
+# supplementary material
 orchard.plot.migratory.inc.vagrants + 
   scale_y_continuous(limits = c(0,15),
                      breaks = seq(0,15,1))
+
+# dev.off()
 
 
 ################################################################################
 # FEEDING AND MIGRATORY: species-specific INCLUDING VAGRANTS
 ################################################################################
 
-# metaregression_feeding_and_migratory_inc_vagrants <- rma.mv(yi = yi,
-#                                                             V = VCV.0.50.study_ID,
-#                                                             mod = ~ 1 +
-#                                                               migratory.inc.vagrants +
-#                                                               feeding.type,
-#                                                             random = list(~ 1 | species.updated.rep,
-#                                                                           ~ 1 | species.updated,
-#                                                                           ~ 1 | study_ID,
-#                                                                           ~ 1 | population_ID,
-#                                                                           ~ 1 | pair_ID,
-#                                                                           ~ 1 | effectsize_ID),
-#                                                             R = list(species.updated = phylo_cor),
-#                                                             data=body.CV.final,
-#                                                             method="REML",
-#                                                             test="t")
+# metaregression_feeding_and_migratory_inc_vagrants_new <- rma.mv(yi = yi,
+#                                                                 #metaregression_feeding_and_migratory_inc_vagrants <- rma.mv(yi = yi,
+#                                                                 V = VCV.0.50.study_ID,
+#                                                                 mod = ~ 1 +
+#                                                                   migratory.inc.vagrants +
+#                                                                   feeding.type,
+#                                                                 random = list(~ 1 | species.updated.new.rep,
+#                                                                               ~ 1 | species.updated.new,
+#                                                                               # ~ 1 | species.updated.rep,
+#                                                                               # ~ 1 | species.updated,
+#                                                                               ~ 1 | study_ID,
+#                                                                               ~ 1 | population_ID,
+#                                                                               ~ 1 | pair_ID,
+#                                                                               ~ 1 | effectsize_ID),
+#                                                                 #R = list(species.updated = phylo_cor),
+#                                                                 R = list(species.updated.new = phylo_cor_new),
+#                                                                 data=body.CV.final,
+#                                                                 method="REML",
+#                                                                 test="t")
 # 
 # save(metaregression_feeding_and_migratory_inc_vagrants,
 #      file="models/sensitivity_analyses/metaregression_feeding_and_migratory_inc_vagrants.RData")
 load("models/sensitivity_analyses/metaregression_feeding_and_migratory_inc_vagrants.RData")
 
+# save(metaregression_feeding_and_migratory_inc_vagrants_new,
+#      file="models/sensitivity_analyses/metaregression_feeding_and_migratory_inc_vagrants_new.RData")
+load("models/sensitivity_analyses/metaregression_feeding_and_migratory_inc_vagrants_new.RData")
 
-summary(metaregression_feeding_and_migratory_inc_vagrants,3)
-round(r2_ml(metaregression_feeding_and_migratory_inc_vagrants)*100,2)
 
+# summary(metaregression_feeding_and_migratory_inc_vagrants,3)
+# round(r2_ml(metaregression_feeding_and_migratory_inc_vagrants)*100,2)
+summary(metaregression_feeding_and_migratory_inc_vagrants_new,3)
+round(r2_ml(metaregression_feeding_and_migratory_inc_vagrants_new)*100,2)
 
 
 ################################################################################
 # MIGRATORY: population-specific INCLUDING VAGRANTS
 ################################################################################
 
-# metaregression_unimoderator_migratory_inc_vagrants_pop_level <- rma.mv(yi = yi,
-#                                                                        V = VCV.0.50.study_ID,
-#                                                                        mod = ~ 1 +
-#                                                                          migratory.inc.vagrants.pop.level,
-#                                                                        random = list(~ 1 | species.updated.rep,
-#                                                                                      ~ 1 | species.updated,
-#                                                                                      ~ 1 | study_ID,
-#                                                                                      ~ 1 | population_ID,
-#                                                                                      ~ 1 | pair_ID,
-#                                                                                      ~ 1 | effectsize_ID),
-#                                                                        R = list(species.updated = phylo_cor),
-#                                                                        data=body.CV.final,
-#                                                                        method="REML",
-#                                                                        test="t")
+# metaregression_unimoderator_migratory_inc_vagrants_pop_level_new <- rma.mv(yi = yi,
+#                                                                            #metaregression_unimoderator_migratory_inc_vagrants_pop_level <- rma.mv(yi = yi,
+#                                                                            V = VCV.0.50.study_ID,
+#                                                                            mod = ~ 1 +
+#                                                                              migratory.inc.vagrants.pop.level,
+#                                                                            random = list(~ 1 | species.updated.new.rep,
+#                                                                                          ~ 1 | species.updated.new,
+#                                                                                          # ~ 1 | species.updated.rep,
+#                                                                                          # ~ 1 | species.updated,
+#                                                                                          ~ 1 | study_ID,
+#                                                                                          ~ 1 | population_ID,
+#                                                                                          ~ 1 | pair_ID,
+#                                                                                          ~ 1 | effectsize_ID),
+#                                                                            #R = list(species.updated = phylo_cor),
+#                                                                            R = list(species.updated.new = phylo_cor_new),
+#                                                                            data=body.CV.final,
+#                                                                            method="REML",
+#                                                                            test="t")
 # 
 # save(metaregression_unimoderator_migratory_inc_vagrants_pop_level,
 #      file="models/sensitivity_analyses/metaregression_unimoderator_migratory_inc_vagrants_pop_level.RData")
 load("models/sensitivity_analyses/metaregression_unimoderator_migratory_inc_vagrants_pop_level.RData")
 
+# save(metaregression_unimoderator_migratory_inc_vagrants_pop_level_new,
+#      file="models/sensitivity_analyses/metaregression_unimoderator_migratory_inc_vagrants_pop_level_new.RData")
+load("models/sensitivity_analyses/metaregression_unimoderator_migratory_inc_vagrants_pop_level_new.RData")
 
-summary(metaregression_unimoderator_migratory_inc_vagrants_pop_level,3)
+#summary(metaregression_unimoderator_migratory_inc_vagrants_pop_level,3)
+summary(metaregression_unimoderator_migratory_inc_vagrants_pop_level_new,3)
 
 # getting marginal R2
-round(r2_ml(metaregression_unimoderator_migratory_inc_vagrants_pop_level)*100,2)
+#round(r2_ml(metaregression_unimoderator_migratory_inc_vagrants_pop_level)*100,2)
+round(r2_ml(metaregression_unimoderator_migratory_inc_vagrants_pop_level_new)*100,2)
 
 
 # the equivalent model but without intercept 
-# metaregression_unimoderator_migratory_inc_vagrants_pop_level.nointercept <- rma.mv(yi = yi,
-#                                                                                    V = VCV.0.50.study_ID,
-#                                                                                    mod = ~ -1 +
-#                                                                                      migratory.inc.vagrants.pop.level,
-#                                                                                    random = list(~ 1 | species.updated.rep,
-#                                                                                                  ~ 1 | species.updated,
-#                                                                                                  ~ 1 | study_ID,
-#                                                                                                  ~ 1 | population_ID,
-#                                                                                                  ~ 1 | pair_ID,
-#                                                                                                  ~ 1 | effectsize_ID),
-#                                                                                    R = list(species.updated = phylo_cor),
-#                                                                                    data=body.CV.final,
-#                                                                                    method="REML",
-#                                                                                    test="t")
+metaregression_unimoderator_migratory_inc_vagrants_pop_level.nointercept_new <- rma.mv(yi = yi,
+                                                                                       #metaregression_unimoderator_migratory_inc_vagrants_pop_level.nointercept <- rma.mv(yi = yi,
+                                                                                       V = VCV.0.50.study_ID,
+                                                                                       mod = ~ -1 +
+                                                                                         migratory.inc.vagrants.pop.level,
+                                                                                       random = list(~ 1 | species.updated.new.rep,
+                                                                                                     ~ 1 | species.updated.new,
+                                                                                                     # ~ 1 | species.updated.rep,
+                                                                                                     # ~ 1 | species.updated,
+                                                                                                     ~ 1 | study_ID,
+                                                                                                     ~ 1 | population_ID,
+                                                                                                     ~ 1 | pair_ID,
+                                                                                                     ~ 1 | effectsize_ID),
+                                                                                       #R = list(species.updated = phylo_cor),
+                                                                                       R = list(species.updated.new = phylo_cor_new),
+                                                                                       data=body.CV.final,
+                                                                                       method="REML",
+                                                                                       test="t")
 # 
 # save(metaregression_unimoderator_migratory_inc_vagrants_pop_level.nointercept,
 #      file="models/sensitivity_analyses/metaregression_unimoderator_migratory_inc_vagrants_pop_level_nointercept.RData")
 load("models/sensitivity_analyses/metaregression_unimoderator_migratory_inc_vagrants_pop_level_nointercept.RData")
 
-# getting marginal R2
-round(r2_ml(metaregression_unimoderator_migratory_inc_vagrants_pop_level.nointercept)*100,2)
+# save(metaregression_unimoderator_migratory_inc_vagrants_pop_level.nointercept_new,
+#      file="models/sensitivity_analyses/metaregression_unimoderator_migratory_inc_vagrants_pop_level_nointercept_new.RData")
+load("models/sensitivity_analyses/metaregression_unimoderator_migratory_inc_vagrants_pop_level_nointercept_new.RData")
 
-summary(metaregression_unimoderator_migratory_inc_vagrants_pop_level.nointercept,3)
-round(exp(metaregression_unimoderator_migratory_inc_vagrants_pop_level.nointercept$beta)*100,2)
-round(exp(metaregression_unimoderator_migratory_inc_vagrants_pop_level.nointercept$ci.lb)*100,2)
-round(exp(metaregression_unimoderator_migratory_inc_vagrants_pop_level.nointercept$ci.ub)*100,2)
+# # getting marginal R2
+# round(r2_ml(metaregression_unimoderator_migratory_inc_vagrants_pop_level.nointercept)*100,2)
+# 
+# summary(metaregression_unimoderator_migratory_inc_vagrants_pop_level.nointercept,3)
+# round(exp(metaregression_unimoderator_migratory_inc_vagrants_pop_level.nointercept$beta)*100,2)
+# round(exp(metaregression_unimoderator_migratory_inc_vagrants_pop_level.nointercept$ci.lb)*100,2)
+# round(exp(metaregression_unimoderator_migratory_inc_vagrants_pop_level.nointercept$ci.ub)*100,2)
+
+# getting marginal R2
+round(r2_ml(metaregression_unimoderator_migratory_inc_vagrants_pop_level.nointercept_new)*100,2)
+summary(metaregression_unimoderator_migratory_inc_vagrants_pop_level.nointercept_new,3)
+round(exp(metaregression_unimoderator_migratory_inc_vagrants_pop_level.nointercept_new$beta)*100,2)
+round(exp(metaregression_unimoderator_migratory_inc_vagrants_pop_level.nointercept_new$ci.lb)*100,2)
+round(exp(metaregression_unimoderator_migratory_inc_vagrants_pop_level.nointercept_new$ci.ub)*100,2)
 
 
 ################################################################################
 # plotting results
 
-orchard.plot.migratory.pop.level.inc.vagrants <- orchaRd::orchard_plot(metaregression_unimoderator_migratory_inc_vagrants_pop_level, 
+orchard.plot.migratory.pop.level.inc.vagrants <- orchaRd::orchard_plot(metaregression_unimoderator_migratory_inc_vagrants_pop_level_new, 
+                                                                       #orchard.plot.migratory.pop.level.inc.vagrants <- orchaRd::orchard_plot(metaregression_unimoderator_migratory_inc_vagrants_pop_level, 
                                                                        mod = "migratory.inc.vagrants.pop.level", 
-                                                                       group = "species.updated.rep", 
+                                                                       group = "species.updated.new.rep", 
                                                                        xlab = "Effect size (CV %)",
                                                                        trunk.size = 1.55,
                                                                        branch.size = 3.5,
                                                                        twig.size = 1.25,
                                                                        transfm  = "percent",
                                                                        colour = F)
+
+
+# saving the figure
+# png(filename = 'figures/supplementary_figures/Figure_S11_Migratory_population_level_vagrants.png',
+#     width = 21, height = 10, units = 'cm',
+#     res = 600)
+
+# supplementary material
 orchard.plot.migratory.pop.level.inc.vagrants + 
   scale_y_continuous(limits = c(0,15),
                      breaks = seq(0,15,1))
 
+# dev.off()
 
 
 ################################################################################
 # FEEDING AND MIGRATORY: population-specific INCLUDING VAGRANTS
 ################################################################################
 
-# metaregression_feeding_and_migratory_inc_vagrants_pop_level <- rma.mv(yi = yi,
-#                                                                       V = VCV.0.50.study_ID,
-#                                                                       mod = ~ 1 +
-#                                                                         migratory.inc.vagrants.pop.level +
-#                                                                         feeding.type.pop.level,
-#                                                                       random = list(~ 1 | species.updated.rep,
-#                                                                                     ~ 1 | species.updated,
-#                                                                                     ~ 1 | study_ID,
-#                                                                                     ~ 1 | population_ID,
-#                                                                                     ~ 1 | pair_ID,
-#                                                                                     ~ 1 | effectsize_ID),
-#                                                                       R = list(species.updated = phylo_cor),
-#                                                                       data=body.CV.final,
-#                                                                       method="REML",
-#                                                                       test="t")
+# metaregression_feeding_and_migratory_inc_vagrants_pop_level_new <- rma.mv(yi = yi,
+#                                                                           #metaregression_feeding_and_migratory_inc_vagrants_pop_level <- rma.mv(yi = yi,
+#                                                                           V = VCV.0.50.study_ID,
+#                                                                           mod = ~ 1 +
+#                                                                             migratory.inc.vagrants.pop.level +
+#                                                                             feeding.type.pop.level,
+#                                                                           random = list(~ 1 | species.updated.new.rep,
+#                                                                                         ~ 1 | species.updated.new,
+#                                                                                         # ~ 1 | species.updated.rep,
+#                                                                                         # ~ 1 | species.updated,
+#                                                                                         ~ 1 | study_ID,
+#                                                                                         ~ 1 | population_ID,
+#                                                                                         ~ 1 | pair_ID,
+#                                                                                         ~ 1 | effectsize_ID),
+#                                                                           #R = list(species.updated = phylo_cor),
+#                                                                           R = list(species.updated.new = phylo_cor_new),
+#                                                                           data=body.CV.final,
+#                                                                           method="REML",
+#                                                                           test="t")
 # 
 # save(metaregression_feeding_and_migratory_inc_vagrants_pop_level,
 #      file="models/sensitivity_analyses/metaregression_feeding_and_migratory_inc_vagrants_pop_level.RData")
 load("models/sensitivity_analyses/metaregression_feeding_and_migratory_inc_vagrants_pop_level.RData")
 
+# save(metaregression_feeding_and_migratory_inc_vagrants_pop_level_new,
+#      file="models/sensitivity_analyses/metaregression_feeding_and_migratory_inc_vagrants_pop_level_new.RData")
+load("models/sensitivity_analyses/metaregression_feeding_and_migratory_inc_vagrants_pop_level_new.RData")
 
-summary(metaregression_feeding_and_migratory_inc_vagrants_pop_level,3)
+
+#summary(metaregression_feeding_and_migratory_inc_vagrants_pop_level,3)
+summary(metaregression_feeding_and_migratory_inc_vagrants_pop_level_new,3)
 
 # getting marginal R2
-round(r2_ml(metaregression_feeding_and_migratory_inc_vagrants_pop_level)*100,2)
+#round(r2_ml(metaregression_feeding_and_migratory_inc_vagrants_pop_level)*100,2)
+round(r2_ml(metaregression_feeding_and_migratory_inc_vagrants_pop_level_new)*100,2)
