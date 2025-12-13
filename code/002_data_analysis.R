@@ -109,7 +109,7 @@ estimates.CI <- function(model){
 # importing final dataset
 # body.CV.final <- read.csv("data/final/04_final_full_and_clean_bird_wing_size_dataset.csv",
 #                           header=T,sep=",")
-body.CV.final <- read.csv("data/final/04_B_final_full_and_clean_bird_wing_size_dataset.csv",
+body.CV.final <- read.csv("data/final/04B_final_full_and_clean_bird_wing_size_dataset.csv",
                           header=T,sep=",")
 
 # quick view

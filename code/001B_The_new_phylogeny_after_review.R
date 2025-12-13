@@ -235,5 +235,5 @@ save(phylo_cor_new, file = "data/phylogeny/phylo_cor_McTavish2025.Rdata")
 
 # data based used in further scripts after adding species.updated.new
 write.csv(body.CV.final,
-          "data/final/04_B_final_full_and_clean_bird_wing_size_dataset.csv",
+          "data/final/04B_final_full_and_clean_bird_wing_size_dataset.csv",
           row.names=FALSE)
