@@ -2000,46 +2000,52 @@ orchard.plot.migratory.pop.level +
 # S4. Calculating total heterogeneity explained
 ################################################################################
 
-metaregression_feeding_and_migratory_pop_level_new <- rma.mv(yi = yi,
-                                                             #metaregression_feeding_and_migratory_pop_level <- rma.mv(yi = yi,
-                                                             V = VCV.0.50.study_ID,
-                                                             mod = ~ 1 +
-                                                               migratory.pop.level +
-                                                               feeding.type.pop.level,
-                                                             random = list(~ 1 | species.updated.new.rep,
-                                                                           ~ 1 | species.updated.new,
-                                                                           # ~ 1 | species.updated.rep,
-                                                                           # ~ 1 | species.updated,
-                                                                           ~ 1 | study_ID,
-                                                                           ~ 1 | population_ID,
-                                                                           ~ 1 | pair_ID,
-                                                                           ~ 1 | effectsize_ID),
-                                                             #R = list(species.updated = phylo_cor),
-                                                             R = list(species.updated.new = phylo_cor_new),
-                                                             data=body.CV.final,
-                                                             method="REML",
-                                                             test="t")
+# metaregression_feeding_and_migratory_pop_level_new <- rma.mv(yi = yi,
+#                                                              #metaregression_feeding_and_migratory_pop_level <- rma.mv(yi = yi,
+#                                                              V = VCV.0.50.study_ID,
+#                                                              mod = ~ 1 +
+#                                                                migratory.pop.level +
+#                                                                feeding.type.pop.level,
+#                                                              random = list(~ 1 | species.updated.new.rep,
+#                                                                            ~ 1 | species.updated.new,
+#                                                                            # ~ 1 | species.updated.rep,
+#                                                                            # ~ 1 | species.updated,
+#                                                                            ~ 1 | study_ID,
+#                                                                            ~ 1 | population_ID,
+#                                                                            ~ 1 | pair_ID,
+#                                                                            ~ 1 | effectsize_ID),
+#                                                              #R = list(species.updated = phylo_cor),
+#                                                              R = list(species.updated.new = phylo_cor_new),
+#                                                              data=body.CV.final,
+#                                                              method="REML",
+#                                                              test="t")
 # 
 # save(metaregression_feeding_and_migratory_pop_level,
 #      file="models/metaregression_feeding_and_migratory_pop_level.RData")
 load("models/metaregression_feeding_and_migratory_pop_level.RData")
 
+# save(metaregression_feeding_and_migratory_pop_level_new,
+#      file="models/metaregression_feeding_and_migratory_pop_level_new.RData")
+load("models/metaregression_feeding_and_migratory_pop_level_new.RData")
 
-summary(metaregression_feeding_and_migratory_pop_level,3)
 
+#summary(metaregression_feeding_and_migratory_pop_level,3)
+summary(metaregression_feeding_and_migratory_pop_level_new,3)
+
+# # getting marginal R2
+# round(r2_ml(metaregression_feeding_and_migratory_pop_level)*100,2)
 # getting marginal R2
-round(r2_ml(metaregression_feeding_and_migratory_pop_level)*100,2)
-
+round(r2_ml(metaregression_feeding_and_migratory_pop_level_new)*100,2)
 
 ################################################################################
 # Plotting all migration and feeding tests
 ################################################################################
 
-# # FIGURE 2
-# # saving the figure
-# png(filename = 'figures/Figure_2_Feeding_and_Migratory_behaviours.png', 
-#     width = 21, height = 21, units = 'cm', 
-#     res = 600)
+# FIGURE 2
+# saving the figure
+png(filename = 'figures/Figure_2_Feeding_and_Migratory_behaviours.png',
+    width = 21, height = 21, units = 'cm',
+    res = 600)
 
 #png(filename = "all.png", width = 9, height = 8, units = "in", type = "windows", res = 400)
 orchard.plot.feeding.type.cropped +
@@ -2053,3 +2059,4 @@ orchard.plot.feeding.type.cropped +
         axis.text.y = element_text(angle=90, vjust=0.5, hjust=0.5, size = 8),
         axis.title = element_text(size = 16))
 
+dev.off()
