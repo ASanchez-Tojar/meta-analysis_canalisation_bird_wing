@@ -551,188 +551,264 @@ VCV.0.75.study_ID <- impute_covariance_matrix(vi = body.CV.final$vi,
 # Meta-analyses
 ################################################################################
 
-################################################################################
+# Update: My approach from now on is to leave the original code used for the 
+# original models which used the phylogeny created from the Open Tree of Life 
+# and Grafen's branch length method but leave it commented. Then, I have added
+# new, equivalent lines of code for renaming objects as _new, and accounting for
+# the new phylogeny constructed based on McTavish et al. 2025
+
+###############################################################################
 # Intercept-only
-# model_intercept_only <- rma.mv(yi = yi,
-#                                V = vi,
-#                                random = list(~ 1 | species.updated.rep,
-#                                              ~ 1 | species.updated,
-#                                              ~ 1 | study_ID,
-#                                              ~ 1 | population_ID,
-#                                              ~ 1 | pair_ID,
-#                                              ~ 1 | effectsize_ID),
-#                                R = list(species.updated = phylo_cor),
-#                                data = body.CV.final,
-#                                method = "REML",
-#                                test = "t")
-# 
+# model_intercept_only_new <- rma.mv(yi = yi,
+#                                    #model_intercept_only <- rma.mv(yi = yi,
+#                                    V = vi,
+#                                    random = list(~ 1 | species.updated.new.rep,
+#                                                  ~ 1 | species.updated.new,
+#                                                  # ~ 1 | species.updated.rep,
+#                                                  # ~ 1 | species.updated,
+#                                                  ~ 1 | study_ID,
+#                                                  ~ 1 | population_ID,
+#                                                  ~ 1 | pair_ID,
+#                                                  ~ 1 | effectsize_ID),
+#                                    #R = list(species.updated = phylo_cor),
+#                                    R = list(species.updated.new = phylo_cor_new),
+#                                    data = body.CV.final,
+#                                    method = "REML",
+#                                    test = "t")
+
 # save(model_intercept_only,
 #      file="models/sensitivity_analyses/model_intercept_only.RData")
 load("models/sensitivity_analyses/model_intercept_only.RData")
+# save(model_intercept_only_new,
+#      file="models/sensitivity_analyses/model_intercept_only_new.RData")
+load("models/sensitivity_analyses/model_intercept_only_new.RData")
 
 # summary(model_intercept_only)
 # predict(model_intercept_only,transf=exp)
 # 
 # 
 # # I2, CV and M
-# round(h.calc(model_intercept_only),3)
+# round(h.calc2(model_intercept_only),3)
 # 
 # # total variance
 # sum(model_intercept_only$sigma2)
+
+# # new model
+# summary(model_intercept_only_new)
+# predict(model_intercept_only_new,transf=exp)
+# 
+# # I2, CV and M
+# round(h.calc2(model_intercept_only_new),3)
+# 
+# # total variance
+# sum(model_intercept_only_new$sigma2)
 
 
 ################################################################################
 # pair_ID
 ################################################################################
 
-
 ################################################################################
 # intercept-only but with VCV 0.5 for pair_ID
-# model_intercept_only_VCV050_pair_ID <- rma.mv(yi=yi,
-#                                       V = VCV.0.50.pair_ID,
-#                                       random = list(~ 1 | species.updated.rep,
-#                                                     ~ 1 | species.updated,
-#                                                     ~ 1 | study_ID,
-#                                                     ~ 1 | population_ID,
-#                                                     ~ 1 | pair_ID,
-#                                                     ~ 1 | effectsize_ID),
-#                                       R = list(species.updated = phylo_cor),
-#                                       data=body.CV.final,
-#                                       method="REML",
-#                                       test="t")
+# model_intercept_only_VCV050_pair_ID_new <- rma.mv(yi=yi,
+#                                                   # model_intercept_only_VCV050_pair_ID <- rma.mv(yi=yi,
+#                                                   V = VCV.0.50.pair_ID,
+#                                                   random = list(~ 1 | species.updated.new.rep,
+#                                                                 ~ 1 | species.updated.new,
+#                                                                 # ~ 1 | species.updated.rep,
+#                                                                 # ~ 1 | species.updated,
+#                                                                 ~ 1 | study_ID,
+#                                                                 ~ 1 | population_ID,
+#                                                                 ~ 1 | pair_ID,
+#                                                                 ~ 1 | effectsize_ID),
+#                                                   #R = list(species.updated = phylo_cor),
+#                                                   R = list(species.updated.new = phylo_cor_new),
+#                                                   data=body.CV.final,
+#                                                   method="REML",
+#                                                   test="t")
 # 
 # save(model_intercept_only_VCV050_pair_ID,
 #      file="models/sensitivity_analyses/model_intercept_only_VCV050_pair_ID.RData")
 load("models/sensitivity_analyses/model_intercept_only_VCV050_pair_ID.RData")
 
+# save(model_intercept_only_VCV050_pair_ID_new,
+#      file="models/sensitivity_analyses/model_intercept_only_VCV050_pair_ID_new.RData")
+load("models/sensitivity_analyses/model_intercept_only_VCV050_pair_ID_new.RData")
+
 # summary(model_intercept_only_VCV050_pair_ID)
 # predict(model_intercept_only_VCV050_pair_ID,transf=exp)
+# summary(model_intercept_only_VCV050_pair_ID_new)
+# predict(model_intercept_only_VCV050_pair_ID_new,transf=exp)
 
 
 ################################################################################
 # intercept-only but with VCV 0.25 for pair_ID 
-# model_intercept_only_VCV025_pair_ID <- rma.mv(yi=yi,
-#                                       V = VCV.0.25.pair_ID,
-#                                       random = list(~ 1 | species.updated.rep,
-#                                                     ~ 1 | species.updated,
-#                                                     ~ 1 | study_ID,
-#                                                     ~ 1 | population_ID,
-#                                                     ~ 1 | pair_ID,
-#                                                     ~ 1 | effectsize_ID),
-#                                       R = list(species.updated = phylo_cor),
-#                                       data=body.CV.final,
-#                                       method="REML",
-#                                       test="t")
+# model_intercept_only_VCV025_pair_ID_new <- rma.mv(yi=yi,
+#                                                   #model_intercept_only_VCV025_pair_ID <- rma.mv(yi=yi,
+#                                                   V = VCV.0.25.pair_ID,
+#                                                   random = list(~ 1 | species.updated.new.rep,
+#                                                                 ~ 1 | species.updated.new,
+#                                                                 # ~ 1 | species.updated.rep,
+#                                                                 # ~ 1 | species.updated,
+#                                                                 ~ 1 | study_ID,
+#                                                                 ~ 1 | population_ID,
+#                                                                 ~ 1 | pair_ID,
+#                                                                 ~ 1 | effectsize_ID),
+#                                                   #R = list(species.updated = phylo_cor),
+#                                                   R = list(species.updated.new = phylo_cor_new),
+#                                                   data=body.CV.final,
+#                                                   method="REML",
+#                                                   test="t")
 # 
 # save(model_intercept_only_VCV025_pair_ID,
 #      file="models/sensitivity_analyses/model_intercept_only_VCV025_pair_ID.RData")
 load("models/sensitivity_analyses/model_intercept_only_VCV025_pair_ID.RData")
 
+# save(model_intercept_only_VCV025_pair_ID_new,
+#      file="models/sensitivity_analyses/model_intercept_only_VCV025_pair_ID_new.RData")
+load("models/sensitivity_analyses/model_intercept_only_VCV025_pair_ID_new.RData")
+
 # summary(model_intercept_only_VCV025_pair_ID)
 # predict(model_intercept_only_VCV025_pair_ID, transf=exp)
+# summary(model_intercept_only_VCV025_pair_ID_new)
+# predict(model_intercept_only_VCV025_pair_ID_new, transf=exp)
 
 
 ################################################################################
 # intercept-only but with VCV 0.75 for pair_ID
-# model_intercept_only_VCV075_pair_ID <- rma.mv(yi=yi,
-#                                       V = VCV.0.75.pair_ID,
-#                                       random = list(~ 1 | species.updated.rep,
-#                                                     ~ 1 | species.updated,
-#                                                     ~ 1 | study_ID,
-#                                                     ~ 1 | population_ID,
-#                                                     ~ 1 | pair_ID,
-#                                                     ~ 1 | effectsize_ID),
-#                                       R = list(species.updated = phylo_cor),
-#                                       data=body.CV.final,
-#                                       method="REML",
-#                                       test="t")
+# model_intercept_only_VCV075_pair_ID_new <- rma.mv(yi=yi,
+#                                                   #model_intercept_only_VCV075_pair_ID <- rma.mv(yi=yi,
+#                                                   V = VCV.0.75.pair_ID,
+#                                                   random = list(~ 1 | species.updated.new.rep,
+#                                                                 ~ 1 | species.updated.new,
+#                                                                 # ~ 1 | species.updated.rep,
+#                                                                 # ~ 1 | species.updated,
+#                                                                 ~ 1 | study_ID,
+#                                                                 ~ 1 | population_ID,
+#                                                                 ~ 1 | pair_ID,
+#                                                                 ~ 1 | effectsize_ID),
+#                                                   #R = list(species.updated = phylo_cor),
+#                                                   R = list(species.updated.new = phylo_cor_new),
+#                                                   data=body.CV.final,
+#                                                   method="REML",
+#                                                   test="t")
 # 
 # save(model_intercept_only_VCV075_pair_ID,
 #      file="models/sensitivity_analyses/model_intercept_only_VCV075_pair_ID.RData")
 load("models/sensitivity_analyses/model_intercept_only_VCV075_pair_ID.RData")
 
+# save(model_intercept_only_VCV075_pair_ID_new,
+#      file="models/sensitivity_analyses/model_intercept_only_VCV075_pair_ID_new.RData")
+load("models/sensitivity_analyses/model_intercept_only_VCV075_pair_ID_new.RData")
+
 # summary(model_intercept_only_VCV075_pair_ID)
 # predict(model_intercept_only_VCV075_pair_ID, transf=exp)
-
+# summary(model_intercept_only_VCV075_pair_ID_new)
+# predict(model_intercept_only_VCV075_pair_ID_new, transf=exp)
 
 ################################################################################
 # population_ID
 ################################################################################
 
-
 ################################################################################
 # intercept-only but with VCV 0.5 for population_ID
-# model_intercept_only_VCV050_population_ID <- rma.mv(yi=yi,
-#                                             V = VCV.0.50.population_ID,
-#                                             random = list(~ 1 | species.updated.rep,
-#                                                           ~ 1 | species.updated,
-#                                                           ~ 1 | study_ID,
-#                                                           ~ 1 | population_ID,
-#                                                           ~ 1 | pair_ID,
-#                                                           ~ 1 | effectsize_ID),
-#                                             R = list(species.updated = phylo_cor),
-#                                             data=body.CV.final,
-#                                             method="REML",
-#                                             test="t")
+# model_intercept_only_VCV050_population_ID_new <- rma.mv(yi=yi,
+#                                                         #model_intercept_only_VCV050_population_ID <- rma.mv(yi=yi,
+#                                                         V = VCV.0.50.population_ID,
+#                                                         random = list(~ 1 | species.updated.new.rep,
+#                                                                       ~ 1 | species.updated.new,
+#                                                                       # ~ 1 | species.updated.rep,
+#                                                                       # ~ 1 | species.updated,
+#                                                                       ~ 1 | study_ID,
+#                                                                       ~ 1 | population_ID,
+#                                                                       ~ 1 | pair_ID,
+#                                                                       ~ 1 | effectsize_ID),
+#                                                         #R = list(species.updated = phylo_cor),
+#                                                         R = list(species.updated.new = phylo_cor_new),
+#                                                         data=body.CV.final,
+#                                                         method="REML",
+#                                                         test="t")
 # 
 # save(model_intercept_only_VCV050_population_ID,
 #      file="models/sensitivity_analyses/model_intercept_only_VCV050_population_ID.RData")
 load("models/sensitivity_analyses/model_intercept_only_VCV050_population_ID.RData")
 
+# save(model_intercept_only_VCV050_population_ID_new,
+#      file="models/sensitivity_analyses/model_intercept_only_VCV050_population_ID_new.RData")
+load("models/sensitivity_analyses/model_intercept_only_VCV050_population_ID_new.RData")
+
 # summary(model_intercept_only_VCV050_population_ID)
 # predict(model_intercept_only_VCV050_population_ID, transf=exp)
-
+# summary(model_intercept_only_VCV050_population_ID_new)
+# predict(model_intercept_only_VCV050_population_ID_new, transf=exp)
 
 ################################################################################
 # intercept-only but with VCV 0.25 for population_ID
-# model_intercept_only_VCV025_population_ID <- rma.mv(yi=yi,
-#                                             V = VCV.0.25.population_ID,
-#                                             random = list(~ 1 | species.updated.rep,
-#                                                           ~ 1 | species.updated,
-#                                                           ~ 1 | study_ID,
-#                                                           ~ 1 | population_ID,
-#                                                           ~ 1 | pair_ID,
-#                                                           ~ 1 | effectsize_ID),
-#                                             R = list(species.updated = phylo_cor),
-#                                             data=body.CV.final,
-#                                             method="REML",
-#                                             test="t")
+# model_intercept_only_VCV025_population_ID_new <- rma.mv(yi=yi,
+#                                                         #model_intercept_only_VCV025_population_ID <- rma.mv(yi=yi,
+#                                                         V = VCV.0.25.population_ID,
+#                                                         random = list(~ 1 | species.updated.new.rep,
+#                                                                       ~ 1 | species.updated.new,
+#                                                                       # ~ 1 | species.updated.rep,
+#                                                                       # ~ 1 | species.updated,
+#                                                                       ~ 1 | study_ID,
+#                                                                       ~ 1 | population_ID,
+#                                                                       ~ 1 | pair_ID,
+#                                                                       ~ 1 | effectsize_ID),
+#                                                         #R = list(species.updated = phylo_cor),
+#                                                         R = list(species.updated.new = phylo_cor_new),
+#                                                         data=body.CV.final,
+#                                                         method="REML",
+#                                                         test="t")
 # 
 # save(model_intercept_only_VCV025_population_ID,
 #      file="models/sensitivity_analyses/model_intercept_only_VCV025_population_ID.RData")
 load("models/sensitivity_analyses/model_intercept_only_VCV025_population_ID.RData")
 
+# save(model_intercept_only_VCV025_population_ID_new,
+#      file="models/sensitivity_analyses/model_intercept_only_VCV025_population_ID_new.RData")
+load("models/sensitivity_analyses/model_intercept_only_VCV025_population_ID_new.RData")
+
 # summary(model_intercept_only_VCV025_population_ID)
 # predict(model_intercept_only_VCV025_population_ID, transf=exp)
-
+# summary(model_intercept_only_VCV025_population_ID_new)
+# predict(model_intercept_only_VCV025_population_ID_new, transf=exp)
 
 ################################################################################
 # intercept-only but with VCV 0.75 for population_ID
-# model_intercept_only_VCV075_population_ID <- rma.mv(yi=yi,
-#                                             V = VCV.0.75.population_ID,
-#                                             random = list(~ 1 | species.updated.rep,
-#                                                           ~ 1 | species.updated,
-#                                                           ~ 1 | study_ID,
-#                                                           ~ 1 | population_ID,
-#                                                           ~ 1 | pair_ID,
-#                                                           ~ 1 | effectsize_ID),
-#                                             R = list(species.updated = phylo_cor),
-#                                             data=body.CV.final,
-#                                             method="REML",
-#                                             test="t")
+# model_intercept_only_VCV075_population_ID_new <- rma.mv(yi=yi,
+#                                                         #model_intercept_only_VCV075_population_ID <- rma.mv(yi=yi,
+#                                                         V = VCV.0.75.population_ID,
+#                                                         random = list(~ 1 | species.updated.new.rep,
+#                                                                       ~ 1 | species.updated.new,
+#                                                                       # ~ 1 | species.updated.rep,
+#                                                                       # ~ 1 | species.updated,
+#                                                                       ~ 1 | study_ID,
+#                                                                       ~ 1 | population_ID,
+#                                                                       ~ 1 | pair_ID,
+#                                                                       ~ 1 | effectsize_ID),
+#                                                         #R = list(species.updated = phylo_cor),
+#                                                         R = list(species.updated.new = phylo_cor_new),
+#                                                         data=body.CV.final,
+#                                                         method="REML",
+#                                                         test="t")
 # 
 # save(model_intercept_only_VCV075_population_ID,
 #      file="models/sensitivity_analyses/model_intercept_only_VCV075_population_ID.RData")
 load("models/sensitivity_analyses/model_intercept_only_VCV075_population_ID.RData")
 
+# save(model_intercept_only_VCV075_population_ID_new,
+#      file="models/sensitivity_analyses/model_intercept_only_VCV075_population_ID_new.RData")
+load("models/sensitivity_analyses/model_intercept_only_VCV075_population_ID_new.RData")
+
 # summary(model_intercept_only_VCV075_population_ID)
 # predict(model_intercept_only_VCV075_population_ID, transf=exp)
-
+# summary(model_intercept_only_VCV075_population_ID_new)
+# predict(model_intercept_only_VCV075_population_ID_new, transf=exp)
 
 ################################################################################
 # study_ID
 ################################################################################
-
 
 ################################################################################
 # # intercept-only but with VCV 0.5 for study_ID
@@ -740,25 +816,35 @@ load("models/sensitivity_analyses/model_intercept_only_VCV075_population_ID.RDat
 
 # THIS IS OUR MODEL OF CHOICE, AND THUS, THE ONE PRESENTED IN THE MANUSCRIPT!!!
 
-# model_intercept_only_VCV050_studyID <- rma.mv(yi = yi,
-#                                               V = VCV.0.50.study_ID,
-#                                               random = list(~ 1 | species.updated.rep,
-#                                                             ~ 1 | species.updated,
-#                                                             ~ 1 | study_ID,
-#                                                             ~ 1 | population_ID,
-#                                                             ~ 1 | pair_ID,
-#                                                             ~ 1 | effectsize_ID),
-#                                               R = list(species.updated = phylo_cor),
-#                                               data = body.CV.final,
-#                                               method = "REML",
-#                                               test = "t")
+# model_intercept_only_VCV050_studyID_new <- rma.mv(yi = yi,
+#                                                   # model_intercept_only_VCV050_studyID <- rma.mv(yi = yi, # preprint v1
+#                                                   V = VCV.0.50.study_ID,
+#                                                   random = list(~ 1 | species.updated.new.rep,
+#                                                                 ~ 1 | species.updated.new,
+#                                                                 # ~ 1 | species.updated.rep,
+#                                                                 # ~ 1 | species.updated,
+#                                                                 ~ 1 | study_ID,
+#                                                                 ~ 1 | population_ID,
+#                                                                 ~ 1 | pair_ID,
+#                                                                 ~ 1 | effectsize_ID),
+#                                                   #R = list(species.updated = phylo_cor),
+#                                                   R = list(species.updated.new = phylo_cor_new),
+#                                                   data = body.CV.final,
+#                                                   method = "REML",
+#                                                   test = "t")
 # 
 # save(model_intercept_only_VCV050_studyID,
 #      file="models/model_intercept_only_VCV050_studyID.RData")
 load("models/model_intercept_only_VCV050_studyID.RData")
 
-summary(model_intercept_only_VCV050_studyID)
-predict(model_intercept_only_VCV050_studyID, transf=exp)
+# save(model_intercept_only_VCV050_studyID_new,
+#      file="models/model_intercept_only_VCV050_studyID_new.RData")
+load("models/model_intercept_only_VCV050_studyID_new.RData")
+
+# summary(model_intercept_only_VCV050_studyID)
+# predict(model_intercept_only_VCV050_studyID, transf=exp)
+summary(model_intercept_only_VCV050_studyID_new)
+predict(model_intercept_only_VCV050_studyID_new, transf=exp)
 
 ################################################################################
 # # intercept-only but with VCV 0.5 for study_ID: using raw lnCV
@@ -767,58 +853,79 @@ predict(model_intercept_only_VCV050_studyID, transf=exp)
 ################################################################################
 
 # body.CV.final$raw.lnCV <- log(body.CV.final$SD) - log(body.CV.final$mean)
-# 
-# model_intercept_only_VCV050_studyID_rawlnCV <- rma.mv(yi = raw.lnCV,
-#                                                       V = VCV.0.50.study_ID,
-#                                                       random = list(~ 1 | species.updated.rep,
-#                                                                     ~ 1 | species.updated,
-#                                                                     ~ 1 | study_ID,
-#                                                                     ~ 1 | population_ID,
-#                                                                     ~ 1 | pair_ID,
-#                                                                     ~ 1 | effectsize_ID),
-#                                                       R = list(species.updated = phylo_cor),
-#                                                       data = body.CV.final,
-#                                                       method = "REML",
-#                                                       test = "t")
+# model_intercept_only_VCV050_studyID_rawlnCV_new <- rma.mv(yi = raw.lnCV,
+#                                                           #model_intercept_only_VCV050_studyID_rawlnCV <- rma.mv(yi = raw.lnCV,
+#                                                           V = VCV.0.50.study_ID,
+#                                                           random = list(~ 1 | species.updated.new.rep,
+#                                                                         ~ 1 | species.updated.new,
+#                                                                         # ~ 1 | species.updated.rep,
+#                                                                         # ~ 1 | species.updated,
+#                                                                         ~ 1 | study_ID,
+#                                                                         ~ 1 | population_ID,
+#                                                                         ~ 1 | pair_ID,
+#                                                                         ~ 1 | effectsize_ID),
+#                                                           #R = list(species.updated = phylo_cor),
+#                                                           R = list(species.updated.new = phylo_cor_new),
+#                                                           data = body.CV.final,
+#                                                           method = "REML",
+#                                                           test = "t")
 # 
 # save(model_intercept_only_VCV050_studyID_rawlnCV,
 #      file="models/sensitivity_analyses/model_intercept_only_VCV050_studyID_rawlnCV.RData")
 load("models/sensitivity_analyses/model_intercept_only_VCV050_studyID_rawlnCV.RData")
 
+# save(model_intercept_only_VCV050_studyID_rawlnCV_new,
+#      file="models/sensitivity_analyses/model_intercept_only_VCV050_studyID_rawlnCV_new.RData")
+load("models/sensitivity_analyses/model_intercept_only_VCV050_studyID_rawlnCV_new.RData")
+
 # summary(model_intercept_only_VCV050_studyID_rawlnCV)
 # predict(model_intercept_only_VCV050_studyID_rawlnCV, transf=exp)
+# summary(model_intercept_only_VCV050_studyID_rawlnCV_new)
+# predict(model_intercept_only_VCV050_studyID_rawlnCV_new, transf=exp)
 
 
 ################################################################################
 # # intercept-only but with VCV 0.5 for study_ID: accounting for sample size
 ################################################################################
 # 
-# # median centered
+# median centered
 # body.CV.final$n.c <- body.CV.final$n - median(body.CV.final$n)
 # 
-# model_intercept_only_VCV050_studyID_n <- rma.mv(yi = yi,
-#                                                 V = VCV.0.50.study_ID,
-#                                                 mods = 1 + n.c,
-#                                                 random = list(~ 1 | species.updated.rep,
-#                                                               ~ 1 | species.updated,
-#                                                               ~ 1 | study_ID,
-#                                                               ~ 1 | population_ID,
-#                                                               ~ 1 | pair_ID,
-#                                                               ~ 1 | effectsize_ID),
-#                                                 R = list(species.updated = phylo_cor),
-#                                                 data = body.CV.final,
-#                                                 method = "REML",
-#                                                 test = "t")
+# model_intercept_only_VCV050_studyID_n_new <- rma.mv(yi = yi,
+#                                                     #model_intercept_only_VCV050_studyID_n <- rma.mv(yi = yi,
+#                                                     V = VCV.0.50.study_ID,
+#                                                     mods = 1 + n.c,
+#                                                     random = list(~ 1 | species.updated.new.rep,
+#                                                                   ~ 1 | species.updated.new,
+#                                                                   # ~ 1 | species.updated.rep,
+#                                                                   # ~ 1 | species.updated,
+#                                                                   ~ 1 | study_ID,
+#                                                                   ~ 1 | population_ID,
+#                                                                   ~ 1 | pair_ID,
+#                                                                   ~ 1 | effectsize_ID),
+#                                                     #R = list(species.updated = phylo_cor),
+#                                                     R = list(species.updated.new = phylo_cor_new),
+#                                                     data = body.CV.final,
+#                                                     method = "REML",
+#                                                     test = "t")
 # 
 # save(model_intercept_only_VCV050_studyID_n,
 #      file="models/sensitivity_analyses/model_intercept_only_VCV050_studyID_n.RData")
 load("models/sensitivity_analyses/model_intercept_only_VCV050_studyID_n.RData")
 
+# save(model_intercept_only_VCV050_studyID_n_new,
+#      file="models/sensitivity_analyses/model_intercept_only_VCV050_studyID_n_new.RData")
+load("models/sensitivity_analyses/model_intercept_only_VCV050_studyID_n_new.RData")
+
 # summary(model_intercept_only_VCV050_studyID_n)
 # round(exp(model_intercept_only_VCV050_studyID_n$beta)*100,2)
 # round(exp(model_intercept_only_VCV050_studyID_n$ci.lb)*100,2)
 # round(exp(model_intercept_only_VCV050_studyID_n$ci.ub)*100,2)
-
+# 
+# summary(model_intercept_only_VCV050_studyID_n_new)
+# round(exp(model_intercept_only_VCV050_studyID_n_new$beta)*100,2)
+# round(exp(model_intercept_only_VCV050_studyID_n_new$ci.lb)*100,2)
+# round(exp(model_intercept_only_VCV050_studyID_n_new$ci.ub)*100,2)
 
 ################################################################################
 # # intercept-only but with VCV 0.5 for study_ID: accounting for mean
@@ -826,21 +933,25 @@ load("models/sensitivity_analyses/model_intercept_only_VCV050_studyID_n.RData")
 
 # median centered
 body.CV.final$mean.c <- body.CV.final$mean - median(body.CV.final$mean)
-# body.CV.final$mean.c <- log(body.CV.final$mean) - median(log(body.CV.final$mean))
-
-# model_intercept_only_VCV050_studyID_mean <- rma.mv(yi = yi,
-#                                                    V = VCV.0.50.study_ID,
-#                                                    mods = 1 + mean.c,
-#                                                    random = list(~ 1 | species.updated.rep,
-#                                                                  ~ 1 | species.updated,
-#                                                                  ~ 1 | study_ID,
-#                                                                  ~ 1 | population_ID,
-#                                                                  ~ 1 | pair_ID,
-#                                                                  ~ 1 | effectsize_ID),
-#                                                    R = list(species.updated = phylo_cor),
-#                                                    data = body.CV.final,
-#                                                    method = "REML",
-#                                                    test = "t")
+# # body.CV.final$mean.c <- log(body.CV.final$mean) - median(log(body.CV.final$mean))
+# 
+# model_intercept_only_VCV050_studyID_mean_new <- rma.mv(yi = yi,
+#                                                        #model_intercept_only_VCV050_studyID_mean <- rma.mv(yi = yi,
+#                                                        V = VCV.0.50.study_ID,
+#                                                        mods = 1 + mean.c,
+#                                                        random = list(~ 1 | species.updated.new.rep,
+#                                                                      ~ 1 | species.updated.new,
+#                                                                      # ~ 1 | species.updated.rep,
+#                                                                      # ~ 1 | species.updated,
+#                                                                      ~ 1 | study_ID,
+#                                                                      ~ 1 | population_ID,
+#                                                                      ~ 1 | pair_ID,
+#                                                                      ~ 1 | effectsize_ID),
+#                                                        #R = list(species.updated = phylo_cor),
+#                                                        R = list(species.updated.new = phylo_cor_new),
+#                                                        data = body.CV.final,
+#                                                        method = "REML",
+#                                                        test = "t")
 # 
 # save(model_intercept_only_VCV050_studyID_mean,
 #      file="models/sensitivity_analyses/model_intercept_only_VCV050_studyID_mean.RData")
@@ -849,89 +960,139 @@ load("models/sensitivity_analyses/model_intercept_only_VCV050_studyID_mean.RData
 #     file="models/sensitivity_analyses/model_intercept_only_VCV050_studyID_lnmean.RData")
 load("models/sensitivity_analyses/model_intercept_only_VCV050_studyID_lnmean.RData")
 
+# save(model_intercept_only_VCV050_studyID_mean_new,
+#      file="models/sensitivity_analyses/model_intercept_only_VCV050_studyID_mean_new.RData")
+load("models/sensitivity_analyses/model_intercept_only_VCV050_studyID_mean_new.RData")
+# save(model_intercept_only_VCV050_studyID_mean_new,
+#     file="models/sensitivity_analyses/model_intercept_only_VCV050_studyID_lnmean_new.RData")
+load("models/sensitivity_analyses/model_intercept_only_VCV050_studyID_lnmean_new.RData")
+
 # summary(model_intercept_only_VCV050_studyID_mean)
 # round(exp(model_intercept_only_VCV050_studyID_mean$beta)*100,2)
 # round(exp(model_intercept_only_VCV050_studyID_mean$ci.lb)*100,2)
 # round(exp(model_intercept_only_VCV050_studyID_mean$ci.ub)*100,2)
+# 
+# summary(model_intercept_only_VCV050_studyID_mean_new)
+# round(exp(model_intercept_only_VCV050_studyID_mean_new$beta)*100,2)
+# round(exp(model_intercept_only_VCV050_studyID_mean_new$ci.lb)*100,2)
+# round(exp(model_intercept_only_VCV050_studyID_mean_new$ci.ub)*100,2)
 
 
 ################################################################################
 # intercept-only but with VCV 0.25 for study_ID
-# model_intercept_only_VCV025_studyID <- rma.mv(yi=yi,
-#                                               V = VCV.0.25.study_ID,
-#                                               random = list(~ 1 | species.updated.rep,
-#                                                             ~ 1 | species.updated,
-#                                                             ~ 1 | study_ID,
-#                                                             ~ 1 | population_ID,
-#                                                             ~ 1 | pair_ID,
-#                                                             ~ 1 | effectsize_ID),
-#                                               R = list(species.updated = phylo_cor),
-#                                               data=body.CV.final,
-#                                               method="REML",
-#                                               test="t")
+# model_intercept_only_VCV025_studyID_new <- rma.mv(yi=yi,
+#                                                   #model_intercept_only_VCV025_studyID <- rma.mv(yi=yi,
+#                                                   V = VCV.0.25.study_ID,
+#                                                   random = list(~ 1 | species.updated.new.rep,
+#                                                                 ~ 1 | species.updated.new,
+#                                                                 # ~ 1 | species.updated.rep,
+#                                                                 # ~ 1 | species.updated,
+#                                                                 ~ 1 | study_ID,
+#                                                                 ~ 1 | population_ID,
+#                                                                 ~ 1 | pair_ID,
+#                                                                 ~ 1 | effectsize_ID),
+#                                                   #R = list(species.updated = phylo_cor),
+#                                                   R = list(species.updated.new = phylo_cor_new),
+#                                                   data=body.CV.final,
+#                                                   method="REML",
+#                                                   test="t")
 # 
 # save(model_intercept_only_VCV025_studyID,
 #      file="models/sensitivity_analyses/model_intercept_only_VCV025_studyID.RData")
 load("models/sensitivity_analyses/model_intercept_only_VCV025_studyID.RData")
 
+# save(model_intercept_only_VCV025_studyID_new,
+#      file="models/sensitivity_analyses/model_intercept_only_VCV025_studyID_new.RData")
+load("models/sensitivity_analyses/model_intercept_only_VCV025_studyID_new.RData")
+
 # summary(model_intercept_only_VCV025_studyID)
 # predict(model_intercept_only_VCV025_studyID, transf=exp)
-
+# summary(model_intercept_only_VCV025_studyID_new)
+# predict(model_intercept_only_VCV025_studyID_new, transf=exp)
 
 ################################################################################
 # intercept-only but with VCV 0.75 for study_ID
-# model_intercept_only_VCV075_studyID <- rma.mv(yi=yi,
-#                                               V = VCV.0.75.study_ID,
-#                                               random = list(~ 1 | species.updated.rep,
-#                                                             ~ 1 | species.updated,
-#                                                             ~ 1 | study_ID,
-#                                                             ~ 1 | population_ID,
-#                                                             ~ 1 | pair_ID,
-#                                                             ~ 1 | effectsize_ID),
-#                                               R = list(species.updated = phylo_cor),
-#                                               data=body.CV.final,
-#                                               method="REML",
-#                                               test="t")
+# model_intercept_only_VCV075_studyID_new <- rma.mv(yi=yi,
+#                                                   #model_intercept_only_VCV075_studyID <- rma.mv(yi=yi,
+#                                                   V = VCV.0.75.study_ID,
+#                                                   random = list(~ 1 | species.updated.new.rep,
+#                                                                 ~ 1 | species.updated.new,
+#                                                                 # ~ 1 | species.updated.rep,
+#                                                                 # ~ 1 | species.updated,
+#                                                                 ~ 1 | study_ID,
+#                                                                 ~ 1 | population_ID,
+#                                                                 ~ 1 | pair_ID,
+#                                                                 ~ 1 | effectsize_ID),
+#                                                   #R = list(species.updated = phylo_cor),
+#                                                   R = list(species.updated.new = phylo_cor_new),
+#                                                   data=body.CV.final,
+#                                                   method="REML",
+#                                                   test="t")
 # 
 # save(model_intercept_only_VCV075_studyID,
 #      file="models/sensitivity_analyses/model_intercept_only_VCV075_studyID.RData")
 load("models/sensitivity_analyses/model_intercept_only_VCV075_studyID.RData")
 
+# save(model_intercept_only_VCV075_studyID_new,
+#      file="models/sensitivity_analyses/model_intercept_only_VCV075_studyID_new.RData")
+load("models/sensitivity_analyses/model_intercept_only_VCV075_studyID_new.RData")
+
 # summary(model_intercept_only_VCV075_studyID)
 # predict(model_intercept_only_VCV075_studyID, transf=exp)
+# summary(model_intercept_only_VCV075_studyID_new)
+# predict(model_intercept_only_VCV075_studyID_new, transf=exp)
 
 
 ################################################################################
 # visualizing all results before choosing the desired model as main analysis
 ################################################################################
 
+# OLD PHYLOGENY, PREPRINT V1
+# # no VCV
+# predict(model_intercept_only, transf=exp)
+# 
+# # VCV 0.5
+# predict(model_intercept_only_VCV050_pair_ID, transf=exp)
+# predict(model_intercept_only_VCV050_population_ID, transf=exp)
+# predict(model_intercept_only_VCV050_studyID, transf=exp) # OUR MODEL!
+# 
+# # VCV 0.25
+# predict(model_intercept_only_VCV025_pair_ID, transf=exp)
+# predict(model_intercept_only_VCV025_population_ID, transf=exp)
+# predict(model_intercept_only_VCV025_studyID, transf=exp)
+# 
+# # VCV 0.75
+# predict(model_intercept_only_VCV075_pair_ID, transf=exp)
+# predict(model_intercept_only_VCV075_population_ID, transf=exp)
+# predict(model_intercept_only_VCV075_studyID, transf=exp)
+# 
+# 
+# # No matter what level of correlation between sampling variances (0.25, 0.5, 
+# # 0.75) we model or whether we do the grouping based on pair_ID, population_ID 
+# # or study_ID, our results at the mean level essentially stay unchanged 
+# # and the 95% CI and 95% PI change very little. For the main models, we have
+# # decided to use a VCV of 0.5 correlation based on study_ID, which seems to be
+# # the second most conservative (wider intervals) approach after the same model
+# # but using a VCV of 0.75 correlation.
+
+# WITH UPDATED PHYLOGENY
 # no VCV
-predict(model_intercept_only, transf=exp)
+predict(model_intercept_only_new, transf=exp)
 
 # VCV 0.5
-predict(model_intercept_only_VCV050_pair_ID, transf=exp)
-predict(model_intercept_only_VCV050_population_ID, transf=exp)
-predict(model_intercept_only_VCV050_studyID, transf=exp) # OUR MODEL!
+predict(model_intercept_only_VCV050_pair_ID_new, transf=exp)
+predict(model_intercept_only_VCV050_population_ID_new, transf=exp)
+predict(model_intercept_only_VCV050_studyID_new, transf=exp) # OUR MODEL!
 
 # VCV 0.25
-predict(model_intercept_only_VCV025_pair_ID, transf=exp)
-predict(model_intercept_only_VCV025_population_ID, transf=exp)
-predict(model_intercept_only_VCV025_studyID, transf=exp)
+predict(model_intercept_only_VCV025_pair_ID_new, transf=exp)
+predict(model_intercept_only_VCV025_population_ID_new, transf=exp)
+predict(model_intercept_only_VCV025_studyID_new, transf=exp)
 
 # VCV 0.75
-predict(model_intercept_only_VCV075_pair_ID, transf=exp)
-predict(model_intercept_only_VCV075_population_ID, transf=exp)
-predict(model_intercept_only_VCV075_studyID, transf=exp)
-
-
-# No matter what level of correlation between sampling variances (0.25, 0.5, 
-# 0.75) we model or whether we do the grouping based on pair_ID, population_ID 
-# or study_ID, our results at the mean level essentially stay unchanged 
-# and the 95% CI and 95% PI change very little. For the main models, we have
-# decided to use a VCV of 0.5 correlation based on study_ID, which seems to be
-# the second most conservative (wider intervals) approach after the same model
-# but using a VCV of 0.75 correlation.
-
+predict(model_intercept_only_VCV075_pair_ID_new, transf=exp)
+predict(model_intercept_only_VCV075_population_ID_new, transf=exp)
+predict(model_intercept_only_VCV075_studyID_new, transf=exp)
 
 ################################################################################
 # Exploring likelihood profiles random effects for our model of choice
@@ -961,25 +1122,29 @@ predict(model_intercept_only_VCV075_studyID, transf=exp)
 ################################################################################
 
 # calculating total variance or total absolute heterogeneity
-round(sum(model_intercept_only_VCV050_studyID$sigma2),4)
+# round(sum(model_intercept_only_VCV050_studyID$sigma2),4)
+round(sum(model_intercept_only_VCV050_studyID_new$sigma2),4)
 
 
 # Calculating typical sampling variance, which captures the statistical noise of 
 # the data, but is rarely reported
-round(sigma2_v(model_intercept_only_VCV050_studyID),3)
+# round(sigma2_v(model_intercept_only_VCV050_studyID),3)
+round(sigma2_v(model_intercept_only_VCV050_studyID_new),3)
 
 
-# # I2, CV and M (Yang et al. 2024)
+# # I2, CV and M (Yang et al. 2025)
 # round(h.calc(model_intercept_only_VCV050_studyID),3)
 
 # using orchaRd to calculate I2, CV and M (Yang et al. 2024)
-round(i2_ml(model_intercept_only_VCV050_studyID),1)
-round(cvh2_ml(model_intercept_only_VCV050_studyID),3)
-round(m2_ml(model_intercept_only_VCV050_studyID),3)
-
+# round(i2_ml(model_intercept_only_VCV050_studyID),1)
+# round(cvh2_ml(model_intercept_only_VCV050_studyID),3)
+# round(m2_ml(model_intercept_only_VCV050_studyID),3)
+round(i2_ml(model_intercept_only_VCV050_studyID_new),1)
+round(cvh2_ml(model_intercept_only_VCV050_studyID_new),3)
+round(m2_ml(model_intercept_only_VCV050_studyID_new),3)
 # Notes on interpretation of I2, CV and M
 
-# I2 = 94.2% that's between 50th and 75th percentile of empirically derived ones
+# I2 = 94.1% that's between 50th and 75th percentile of empirically derived ones
 # that also means that heterogeneity is 94.2/5.8 = 16.24138 times larger than that 
 # of statistical noise
 
@@ -1002,13 +1167,15 @@ round(m2_ml(model_intercept_only_VCV050_studyID),3)
 # shared evolutionary histories among species explain patterns of similarity 
 # (e.g., in trait values; Freckleton, Harvey & Pagel 2002), we can calculate
 # phylogenetic heritability, h2 (Lynch 1991; Nakagawa & Santos 2012) as:
-round(model_intercept_only_VCV050_studyID$sigma2[2]/sum(model_intercept_only_VCV050_studyID$sigma2),2)
+# round(model_intercept_only_VCV050_studyID$sigma2[2]/sum(model_intercept_only_VCV050_studyID$sigma2),2)
+round(model_intercept_only_VCV050_studyID_new$sigma2[2]/sum(model_intercept_only_VCV050_studyID_new$sigma2),2)
 
 # Another parameter for assessing the phylogenetic signal is Pagel's lambda
 # (Pagel 1999; Freckleton, Harvey & Pagel 2002; Cinar, Nakagawa & Viechtbauer 
 # 2022), which unlike h2, reflects the proportion of phylogenetic variance
 # relative to the variance across species.
-round(model_intercept_only_VCV050_studyID$sigma2[2]/(model_intercept_only_VCV050_studyID$sigma2[1] + model_intercept_only_VCV050_studyID$sigma2[2]),2)
+# round(model_intercept_only_VCV050_studyID$sigma2[2]/(model_intercept_only_VCV050_studyID$sigma2[1] + model_intercept_only_VCV050_studyID$sigma2[2]),2)
+round(model_intercept_only_VCV050_studyID_new$sigma2[2]/(model_intercept_only_VCV050_studyID_new$sigma2[1] + model_intercept_only_VCV050_studyID_new$sigma2[2]),2)
 
 # # variance-mean-standardized version
 # round(model_intercept_only_VCV050_studyID$sigma2[2]^2/(model_intercept_only_VCV050_studyID$sigma2[2]^2+model_intercept_only_VCV050_studyID$b[1]^2),5)
@@ -1019,49 +1186,78 @@ round(model_intercept_only_VCV050_studyID$sigma2[2]/(model_intercept_only_VCV050
 ################################################################################
 
 # make dataframe for plotting
-h_status <- h.calc2(model_intercept_only_VCV050_studyID)
+# h_status <- h.calc2(model_intercept_only_VCV050_studyID)
+h_status_new <- h.calc2(model_intercept_only_VCV050_studyID_new)
 
 # adding sigmas
-h_status$sigma2s <- c(sum(model_intercept_only_VCV050_studyID$sigma2),
-                      model_intercept_only_VCV050_studyID$sigma2[1],
-                      model_intercept_only_VCV050_studyID$sigma2[2],
-                      model_intercept_only_VCV050_studyID$sigma2[3],
-                      model_intercept_only_VCV050_studyID$sigma2[4],
-                      model_intercept_only_VCV050_studyID$sigma2[5],
-                      model_intercept_only_VCV050_studyID$sigma2[6])
+# h_status$sigma2s <- c(sum(model_intercept_only_VCV050_studyID$sigma2),
+#                       model_intercept_only_VCV050_studyID$sigma2[1],
+#                       model_intercept_only_VCV050_studyID$sigma2[2],
+#                       model_intercept_only_VCV050_studyID$sigma2[3],
+#                       model_intercept_only_VCV050_studyID$sigma2[4],
+#                       model_intercept_only_VCV050_studyID$sigma2[5],
+#                       model_intercept_only_VCV050_studyID$sigma2[6])
+h_status_new$sigma2s <- c(sum(model_intercept_only_VCV050_studyID_new$sigma2),
+                          model_intercept_only_VCV050_studyID_new$sigma2[1],
+                          model_intercept_only_VCV050_studyID_new$sigma2[2],
+                          model_intercept_only_VCV050_studyID_new$sigma2[3],
+                          model_intercept_only_VCV050_studyID_new$sigma2[4],
+                          model_intercept_only_VCV050_studyID_new$sigma2[5],
+                          model_intercept_only_VCV050_studyID_new$sigma2[6])
 
 # rounding values
-round(h_status$I2s_Shinichi,1)
-round(h_status$CVHs,3)
-round(h_status$Ms,3)
-round(h_status$sigma2s,3)
-
+# round(h_status$I2s_Shinichi,1)
+# round(h_status$CVHs,3)
+# round(h_status$Ms,3)
+# round(h_status$sigma2s,3)
+round(h_status_new$I2s_Shinichi,1)
+round(h_status_new$CVHs,3)
+round(h_status_new$Ms,3)
+round(h_status_new$sigma2s,3)
 
 #h_status$CVs <- h_status$CVs*100
-h_status$levels <- rownames(h_status)  
+# h_status$levels <- rownames(h_status)  
+h_status_new$levels <- rownames(h_status_new)  
 
+# # recoding random effect levels to make them more self-explanatory
+# h_status$levels <- dplyr::recode(h_status$levels, 
+#                                  "Total" = "Total",  
+#                                  "species.updated.rep" = "Species",  
+#                                  "species.updated" = "Phylogeny", 
+#                                  "study_ID" = "Between-study", 
+#                                  "population_ID" = "Population",
+#                                  "pair_ID" = "Paired estimates",
+#                                  "effectsize_ID" = "Within-study")
 # recoding random effect levels to make them more self-explanatory
-h_status$levels <- dplyr::recode(h_status$levels, 
-                                 "Total" = "Total",  
-                                 "species.updated.rep" = "Species",  
-                                 "species.updated" = "Phylogeny", 
-                                 "study_ID" = "Between-study", 
-                                 "population_ID" = "Population",
-                                 "pair_ID" = "Paired estimates",
-                                 "effectsize_ID" = "Within-study")
+h_status_new$levels <- dplyr::recode(h_status_new$levels, 
+                                     "Total" = "Total",  
+                                     "species.updated.new.rep" = "Species",  
+                                     "species.updated.new" = "Phylogeny", 
+                                     "study_ID" = "Between-study", 
+                                     "population_ID" = "Population",
+                                     "pair_ID" = "Paired estimates",
+                                     "effectsize_ID" = "Within-study")
 
-h_status$levels <- as.factor(h_status$levels)
-h_status$levels <- factor(h_status$levels, levels = c("Total",
-                                                      "Between-study",
-                                                      "Paired estimates",
-                                                      "Population",
-                                                      "Phylogeny", 
-                                                      "Species", 
-                                                      "Within-study"))
-
+# h_status$levels <- as.factor(h_status$levels)
+# h_status$levels <- factor(h_status$levels, levels = c("Total",
+#                                                       "Between-study",
+#                                                       "Paired estimates",
+#                                                       "Population",
+#                                                       "Phylogeny", 
+#                                                       "Species", 
+#                                                       "Within-study"))
+h_status_new$levels <- as.factor(h_status_new$levels)
+h_status_new$levels <- factor(h_status_new$levels, levels = c("Total",
+                                                              "Between-study",
+                                                              "Paired estimates",
+                                                              "Population",
+                                                              "Phylogeny", 
+                                                              "Species", 
+                                                              "Within-study"))
 
 # plotting time
-p.sigma <- ggplot(h_status, aes(levels, sigma2s)) +
+p.sigma <- ggplot(h_status_new, aes(levels, sigma2s)) +
+  #p.sigma <- ggplot(h_status, aes(levels, sigma2s)) +
   geom_col(alpha = 1,
            color = wes_palette('GrandBudapest1', 4, type = 'discrete')[1],
            fill = wes_palette('GrandBudapest1', 4, type = 'discrete')[1]) +
@@ -1075,7 +1271,8 @@ p.sigma <- ggplot(h_status, aes(levels, sigma2s)) +
   )
 
 # I2
-p.I2 <- ggplot(h_status, aes(levels, I2s_Shinichi/100)) +
+p.I2 <- ggplot(h_status_new, aes(levels, I2s_Shinichi/100)) +
+  #p.I2 <- ggplot(h_status, aes(levels, I2s_Shinichi/100)) +
   geom_col(alpha = 1, color = wes_palette('GrandBudapest1', 4, 
                                           type = 'discrete')[2], 
            fill = wes_palette('GrandBudapest1', 4, type = 'discrete')[2]) +
@@ -1089,7 +1286,8 @@ p.I2 <- ggplot(h_status, aes(levels, I2s_Shinichi/100)) +
   ) 
 
 # CV
-p.CV <- ggplot(h_status, aes(levels, CVHs)) +
+p.CV <- ggplot(h_status_new, aes(levels, CVHs)) +
+  #p.CV <- ggplot(h_status, aes(levels, CVHs)) +
   geom_col(alpha = 1, color = wes_palette('GrandBudapest1', 4, 
                                           type = 'discrete')[3], 
            fill = wes_palette('GrandBudapest1', 4, type = 'discrete')[3]) +
@@ -1105,7 +1303,8 @@ p.CV <- ggplot(h_status, aes(levels, CVHs)) +
 
 
 # M
-p.M <- ggplot(h_status, aes(x = levels, y = Ms)) +
+p.M <- ggplot(h_status_new, aes(x = levels, y = Ms)) +
+  #p.M <- ggplot(h_status, aes(x = levels, y = Ms)) +
   geom_col(alpha = 1, color = wes_palette('GrandBudapest1', 4, 
                                           type = 'discrete')[4], 
            fill = wes_palette('GrandBudapest1', 4, type = 'discrete')[4]) +
@@ -1121,11 +1320,10 @@ p.M <- ggplot(h_status, aes(x = levels, y = Ms)) +
 # info here: https://patchwork.data-imaginist.com/articles/guides/layout.html
 
 # # saving the figure
-# png(filename = 'figures/supplementary_figures/Figure_S4_Heterogeneity_pluralistic_approach.png', 
-#     width = 19, height = 19, units = 'cm', 
+# png(filename = 'figures/supplementary_figures/Figure_S4_Heterogeneity_pluralistic_approach.png',
+#     width = 19, height = 19, units = 'cm',
 #     res = 600)
 
-#png(filename = "all.png", width = 9, height = 8, units = "in", type = "windows", res = 400)
 p.sigma + p.I2 + p.CV + p.M + 
   plot_layout(ncol = 2, nrow = 2,
               axes = "collect") + 
@@ -1133,7 +1331,7 @@ p.sigma + p.I2 + p.CV + p.M +
   theme(plot.tag = element_text(face = "bold"),
         axis.text.x = element_text(angle=45, vjust=1.0, hjust=1))
 
-#dev.off()
+# dev.off()
 
 
 ################################################################################
@@ -1152,41 +1350,55 @@ p.sigma + p.I2 + p.CV + p.M +
 # Reinhold & Engqvist 2013: https://doi.org/10.1111/evo.12224 (although multiple traits included not only wing size)
 # Nakagawa et al. 2015: https://doi.org/10.1111/2041-210X.12309 (although multiple traits included not only wing size)
 
-# metaregression_unimoderator_sex <- rma.mv(yi = yi,
-#                                           V = VCV.0.50.study_ID,
-#                                           mod = ~ 1 + sex,
-#                                           random = list(~ 1 | species.updated.rep,
-#                                                         ~ 1 | species.updated,
-#                                                         ~ 1 | study_ID,
-#                                                         ~ 1 | population_ID,
-#                                                         ~ 1 | pair_ID,
-#                                                         ~ 1 | effectsize_ID),
-#                                           R = list(species.updated = phylo_cor),
-#                                           data=body.CV.final,
-#                                           method="REML",
-#                                           test="t")
+metaregression_unimoderator_sex_new <- rma.mv(yi = yi,
+                                              #metaregression_unimoderator_sex <- rma.mv(yi = yi,
+                                              V = VCV.0.50.study_ID,
+                                              mod = ~ 1 + sex,
+                                              random = list(~ 1 | species.updated.new.rep,
+                                                            ~ 1 | species.updated.new,
+                                                            # ~ 1 | species.updated.rep,
+                                                            # ~ 1 | species.updated,
+                                                            ~ 1 | study_ID,
+                                                            ~ 1 | population_ID,
+                                                            ~ 1 | pair_ID,
+                                                            ~ 1 | effectsize_ID),
+                                              #R = list(species.updated = phylo_cor),
+                                              R = list(species.updated.new = phylo_cor_new),
+                                              data=body.CV.final,
+                                              method="REML",
+                                              test="t")
 # 
 # save(metaregression_unimoderator_sex,
 #      file="models/metaregression_unimoderator_sex.RData")
 load("models/metaregression_unimoderator_sex.RData")
 
-summary(metaregression_unimoderator_sex)
+# save(metaregression_unimoderator_sex_new,
+#      file="models/metaregression_unimoderator_sex_new.RData")
+load("models/metaregression_unimoderator_sex_new.RData")
+
+#summary(metaregression_unimoderator_sex)
+summary(metaregression_unimoderator_sex_new)
 
 # getting marginal R2
-round(r2_ml(metaregression_unimoderator_sex)*100,2)
+#round(r2_ml(metaregression_unimoderator_sex)*100,2)
+round(r2_ml(metaregression_unimoderator_sex_new)*100,2)
 
 
 # the equivalent model but without intercept 
-# metaregression_unimoderator_sex.nointercept <- rma.mv(yi = yi,
+# metaregression_unimoderator_sex.nointercept_new <- rma.mv(yi = yi,
+# #metaregression_unimoderator_sex.nointercept <- rma.mv(yi = yi,
 #                                                       V = VCV.0.50.study_ID,
 #                                                       mod = ~ -1 + sex,
-#                                                       random = list(~ 1 | species.updated.rep,
-#                                                                     ~ 1 | species.updated,
+#                                                       random = list(~ 1 | species.updated.new.rep,
+#                                                                     ~ 1 | species.updated.new,
+#                                                                     # ~ 1 | species.updated.rep,
+#                                                                     # ~ 1 | species.updated,
 #                                                                     ~ 1 | study_ID,
 #                                                                     ~ 1 | population_ID,
 #                                                                     ~ 1 | pair_ID,
 #                                                                     ~ 1 | effectsize_ID),
-#                                                       R = list(species.updated = phylo_cor),
+#                                                       #R = list(species.updated = phylo_cor),
+#                                                       R = list(species.updated.new = phylo_cor_new),
 #                                                       data=body.CV.final,
 #                                                       method="REML",
 #                                                       test="t")
@@ -1195,10 +1407,19 @@ round(r2_ml(metaregression_unimoderator_sex)*100,2)
 #      file="models/metaregression_unimoderator_sex_nointercept.RData")
 load("models/metaregression_unimoderator_sex_nointercept.RData")
 
-summary(metaregression_unimoderator_sex.nointercept)
-round(exp(metaregression_unimoderator_sex.nointercept$beta)*100,2)
-round(exp(metaregression_unimoderator_sex.nointercept$ci.lb)*100,2)
-round(exp(metaregression_unimoderator_sex.nointercept$ci.ub)*100,2)
+# save(metaregression_unimoderator_sex.nointercept_new,
+#      file="models/metaregression_unimoderator_sex_nointercept_new.RData")
+load("models/metaregression_unimoderator_sex_nointercept_new.RData")
+
+# summary(metaregression_unimoderator_sex.nointercept)
+# round(exp(metaregression_unimoderator_sex.nointercept$beta)*100,2)
+# round(exp(metaregression_unimoderator_sex.nointercept$ci.lb)*100,2)
+# round(exp(metaregression_unimoderator_sex.nointercept$ci.ub)*100,2)
+
+summary(metaregression_unimoderator_sex.nointercept_new)
+round(exp(metaregression_unimoderator_sex.nointercept_new$beta)*100,2)
+round(exp(metaregression_unimoderator_sex.nointercept_new$ci.lb)*100,2)
+round(exp(metaregression_unimoderator_sex.nointercept_new$ci.ub)*100,2)
 
 # summary(body.CV.final$yi)
 # exp(min(body.CV.final$yi))*100
@@ -1209,9 +1430,10 @@ round(exp(metaregression_unimoderator_sex.nointercept$ci.ub)*100,2)
 ################################################################################
 # plotting results
 
-orchard.plot.sex <- orchaRd::orchard_plot(metaregression_unimoderator_sex,
+orchard.plot.sex <- orchaRd::orchard_plot(metaregression_unimoderator_sex_new,
+                                          #orchard.plot.sex <- orchaRd::orchard_plot(metaregression_unimoderator_sex,
                                           mod = "sex",
-                                          group = "species.updated.rep",
+                                          group = "species.updated.new.rep",
                                           xlab = "Effect size (CV %)",
                                           trunk.size = 1.55,
                                           branch.size = 3.5,
@@ -1234,7 +1456,7 @@ orchard.plot.sex <- orchaRd::orchard_plot(metaregression_unimoderator_sex,
 # 
 # dev.off()
 
-# # saving the figure
+# saving the figure
 # png(filename = 'figures/supplementary_figures/Figure_S5_Sex_Chromosome_Hypothesis.png',
 #     width = 21, height = 10, units = 'cm',
 #     res = 600)
@@ -1244,73 +1466,101 @@ orchard.plot.sex +
   scale_y_continuous(limits = c(0,14),
                      breaks = seq(0,14,1))
 
-#dev.off()
+# dev.off()
 
 ################################################################################
 # FEEDING TYPE: species-specific
 ################################################################################
 
-# metaregression_unimoderator_feeding_type <- rma.mv(yi = yi,
-#                                                    V = VCV.0.50.study_ID,
-#                                                    mod = ~ 1 +
-#                                                      feeding.type,
-#                                                    random = list(~ 1 | species.updated.rep,
-#                                                                  ~ 1 | species.updated,
-#                                                                  ~ 1 | study_ID,
-#                                                                  ~ 1 | population_ID,
-#                                                                  ~ 1 | pair_ID,
-#                                                                  ~ 1 | effectsize_ID),
-#                                                    R = list(species.updated = phylo_cor),
-#                                                    data=body.CV.final,
-#                                                    method="REML",
-#                                                    test="t")
+# metaregression_unimoderator_feeding_type_new <- rma.mv(yi = yi,
+#                                                        #metaregression_unimoderator_feeding_type <- rma.mv(yi = yi,
+#                                                        V = VCV.0.50.study_ID,
+#                                                        mod = ~ 1 +
+#                                                          feeding.type,
+#                                                        random = list(~ 1 | species.updated.new.rep,
+#                                                                      ~ 1 | species.updated.new,
+#                                                                      # ~ 1 | species.updated.rep,
+#                                                                      # ~ 1 | species.updated,
+#                                                                      ~ 1 | study_ID,
+#                                                                      ~ 1 | population_ID,
+#                                                                      ~ 1 | pair_ID,
+#                                                                      ~ 1 | effectsize_ID),
+#                                                        #R = list(species.updated = phylo_cor),
+#                                                        R = list(species.updated.new = phylo_cor_new),
+#                                                        data=body.CV.final,
+#                                                        method="REML",
+#                                                        test="t")
 # 
 # save(metaregression_unimoderator_feeding_type,
 #      file="models/metaregression_unimoderator_feeding_type.RData")
 load("models/metaregression_unimoderator_feeding_type.RData")
 
+# save(metaregression_unimoderator_feeding_type_new,
+#      file="models/metaregression_unimoderator_feeding_type_new.RData")
+load("models/metaregression_unimoderator_feeding_type_new.RData")
 
-summary(metaregression_unimoderator_feeding_type,3)
+# summary(metaregression_unimoderator_feeding_type,3)
+# # though it is clear from the estimates, here is the actual statistical test 
+# # between partially and fully migratory (no reported for simplicity)
+# car::linearHypothesis(metaregression_unimoderator_feeding_type, rbind(c(0,1,-1)))
+# 
+# # getting marginal R2
+# round(r2_ml(metaregression_unimoderator_feeding_type)*100,2)
+
+summary(metaregression_unimoderator_feeding_type_new,3)
 # though it is clear from the estimates, here is the actual statistical test 
 # between partially and fully migratory (no reported for simplicity)
-car::linearHypothesis(metaregression_unimoderator_feeding_type, rbind(c(0,1,-1)))
+car::linearHypothesis(metaregression_unimoderator_feeding_type_new, rbind(c(0,1,-1)))
 
 # getting marginal R2
-round(r2_ml(metaregression_unimoderator_feeding_type)*100,2)
-
+round(r2_ml(metaregression_unimoderator_feeding_type_new)*100,2)
 
 # the equivalent model but without intercept
-# metaregression_unimoderator_feeding_type.nointercept <- rma.mv(yi = yi,
-#                                                                V = VCV.0.50.study_ID,
-#                                                                mod = ~ -1 +
-#                                                                  feeding.type,
-#                                                                random = list(~ 1 | species.updated.rep,
-#                                                                              ~ 1 | species.updated,
-#                                                                              ~ 1 | study_ID,
-#                                                                              ~ 1 | population_ID,
-#                                                                              ~ 1 | pair_ID,
-#                                                                              ~ 1 | effectsize_ID),
-#                                                                R = list(species.updated = phylo_cor),
-#                                                                data=body.CV.final,
-#                                                                method="REML",
-#                                                                test="t")
+# metaregression_unimoderator_feeding_type.nointercept_new <- rma.mv(yi = yi,
+#                                                                    #metaregression_unimoderator_feeding_type.nointercept <- rma.mv(yi = yi,
+#                                                                    V = VCV.0.50.study_ID,
+#                                                                    mod = ~ -1 +
+#                                                                      feeding.type,
+#                                                                    random = list(~ 1 | species.updated.new.rep,
+#                                                                                  ~ 1 | species.updated.new,
+#                                                                                  # ~ 1 | species.updated.rep,
+#                                                                                  # ~ 1 | species.updated,
+#                                                                                  ~ 1 | study_ID,
+#                                                                                  ~ 1 | population_ID,
+#                                                                                  ~ 1 | pair_ID,
+#                                                                                  ~ 1 | effectsize_ID),
+#                                                                    #R = list(species.updated = phylo_cor),
+#                                                                    R = list(species.updated.new = phylo_cor_new),
+#                                                                    data=body.CV.final,
+#                                                                    method="REML",
+#                                                                    test="t")
 # 
 # save(metaregression_unimoderator_feeding_type.nointercept,
 #      file="models/metaregression_unimoderator_feeding_type_nointercept.RData")
 load("models/metaregression_unimoderator_feeding_type_nointercept.RData")
 
-summary(metaregression_unimoderator_feeding_type.nointercept,3)
-round(exp(metaregression_unimoderator_feeding_type.nointercept$beta)*100,2)
-round(exp(metaregression_unimoderator_feeding_type.nointercept$ci.lb)*100,2)
-round(exp(metaregression_unimoderator_feeding_type.nointercept$ci.ub)*100,2)
+# save(metaregression_unimoderator_feeding_type.nointercept_new,
+#      file="models/metaregression_unimoderator_feeding_type_nointercept_new.RData")
+load("models/metaregression_unimoderator_feeding_type_nointercept_new.RData")
+
+# summary(metaregression_unimoderator_feeding_type.nointercept,3)
+# round(exp(metaregression_unimoderator_feeding_type.nointercept$beta)*100,2)
+# round(exp(metaregression_unimoderator_feeding_type.nointercept$ci.lb)*100,2)
+# round(exp(metaregression_unimoderator_feeding_type.nointercept$ci.ub)*100,2)
+
+summary(metaregression_unimoderator_feeding_type.nointercept_new,3)
+round(exp(metaregression_unimoderator_feeding_type.nointercept_new$beta)*100,2)
+round(exp(metaregression_unimoderator_feeding_type.nointercept_new$ci.lb)*100,2)
+round(exp(metaregression_unimoderator_feeding_type.nointercept_new$ci.ub)*100,2)
 
 
 ################################################################################
 # plotting results
 
-orchard.plot.feeding.type <- orchaRd::orchard_plot(metaregression_unimoderator_feeding_type, 
+orchard.plot.feeding.type <- orchaRd::orchard_plot(metaregression_unimoderator_feeding_type_new,
+                                                   #orchard.plot.feeding.type <- orchaRd::orchard_plot(metaregression_unimoderator_feeding_type, 
                                                    mod = "feeding.type", 
-                                                   group = "species.updated.rep", 
+                                                   group = "species.updated.new.rep", 
                                                    xlab = "Effect size (CV %)",
                                                    trunk.size = 1.85,
                                                    branch.size = 3.5,
@@ -1329,8 +1579,8 @@ orchard.plot.feeding.type.cropped <- orchard.plot.feeding.type +
 orchard.plot.feeding.type.cropped
 
 # # saving the figure
-# png(filename = 'figures/supplementary_figures/Figure_S6_Feeding_species_level.png', 
-#     width = 21, height = 10, units = 'cm', 
+# png(filename = 'figures/supplementary_figures/Figure_S6_Feeding_species_level.png',
+#     width = 21, height = 10, units = 'cm',
 #     res = 600)
 
 # supplementary material
@@ -1341,76 +1591,108 @@ orchard.plot.feeding.type +
                      breaks = seq(0,14,1)) +
   theme(axis.text.y = element_text(size = 7.5))
 
-#dev.off()
+# dev.off()
 
 ################################################################################
 # MIGRATORY: species-specific
 ################################################################################
 
-# metaregression_unimoderator_migratory <- rma.mv(yi = yi,
-#                                                 V = VCV.0.50.study_ID,
-#                                                 mod = ~ 1 +
-#                                                   migratory,
-#                                                 random = list(~ 1 | species.updated.rep,
-#                                                               ~ 1 | species.updated,
-#                                                               ~ 1 | study_ID,
-#                                                               ~ 1 | population_ID,
-#                                                               ~ 1 | pair_ID,
-#                                                               ~ 1 | effectsize_ID),
-#                                                 R = list(species.updated = phylo_cor),
-#                                                 data=body.CV.final,
-#                                                 method="REML",
-#                                                 test="t")
+# metaregression_unimoderator_migratory_new <- rma.mv(yi = yi,
+#                                                     #metaregression_unimoderator_migratory <- rma.mv(yi = yi,
+#                                                     V = VCV.0.50.study_ID,
+#                                                     mod = ~ 1 +
+#                                                       migratory,
+#                                                     random = list(~ 1 | species.updated.new.rep,
+#                                                                   ~ 1 | species.updated.new,
+#                                                                   # ~ 1 | species.updated.rep,
+#                                                                   # ~ 1 | species.updated,
+#                                                                   ~ 1 | study_ID,
+#                                                                   ~ 1 | population_ID,
+#                                                                   ~ 1 | pair_ID,
+#                                                                   ~ 1 | effectsize_ID),
+#                                                     #R = list(species.updated = phylo_cor),
+#                                                     R = list(species.updated.new = phylo_cor_new),
+#                                                     data=body.CV.final,
+#                                                     method="REML",
+#                                                     test="t")
 # 
 # save(metaregression_unimoderator_migratory,
 #      file="models/metaregression_unimoderator_migratory.RData")
 load("models/metaregression_unimoderator_migratory.RData")
 
+# save(metaregression_unimoderator_migratory_new,
+#      file="models/metaregression_unimoderator_migratory_new.RData")
+load("models/metaregression_unimoderator_migratory_new.RData")
 
-summary(metaregression_unimoderator_migratory,3)
+
+# summary(metaregression_unimoderator_migratory,3)
+# # though it is clear from the estimates, here is the actual statistical test 
+# # between partially and fully migratory (no reported for simplicity)
+# car::linearHypothesis(metaregression_unimoderator_migratory, rbind(c(0,1,-1)))
+# 
+# # getting marginal R2
+# round(r2_ml(metaregression_unimoderator_migratory)*100,2)
+
+summary(metaregression_unimoderator_migratory_new,3)
 # though it is clear from the estimates, here is the actual statistical test 
 # between partially and fully migratory (no reported for simplicity)
-car::linearHypothesis(metaregression_unimoderator_migratory, rbind(c(0,1,-1)))
+car::linearHypothesis(metaregression_unimoderator_migratory_new, rbind(c(0,1,-1)))
 
 # getting marginal R2
-round(r2_ml(metaregression_unimoderator_migratory)*100,2)
+round(r2_ml(metaregression_unimoderator_migratory_new)*100,2)
 
 
 # the equivalent model but without intercept 
-# metaregression_unimoderator_migratory.nointercept <- rma.mv(yi = yi,
-#                                                             V = VCV.0.50.study_ID,
-#                                                             mod = ~ -1 +
-#                                                               migratory,
-#                                                             random = list(~ 1 | species.updated.rep,
-#                                                                           ~ 1 | species.updated,
-#                                                                           ~ 1 | study_ID,
-#                                                                           ~ 1 | population_ID,
-#                                                                           ~ 1 | pair_ID,
-#                                                                           ~ 1 | effectsize_ID),
-#                                                             R = list(species.updated = phylo_cor),
-#                                                             data=body.CV.final,
-#                                                             method="REML",
-#                                                             test="t")
+# metaregression_unimoderator_migratory.nointercept_new <- rma.mv(yi = yi,
+#                                                                 #metaregression_unimoderator_migratory.nointercept <- rma.mv(yi = yi,
+#                                                                 V = VCV.0.50.study_ID,
+#                                                                 mod = ~ -1 +
+#                                                                   migratory,
+#                                                                 random = list(~ 1 | species.updated.new.rep,
+#                                                                               ~ 1 | species.updated.new,
+#                                                                               # ~ 1 | species.updated.rep,
+#                                                                               # ~ 1 | species.updated,
+#                                                                               ~ 1 | study_ID,
+#                                                                               ~ 1 | population_ID,
+#                                                                               ~ 1 | pair_ID,
+#                                                                               ~ 1 | effectsize_ID),
+#                                                                 #R = list(species.updated = phylo_cor),
+#                                                                 R = list(species.updated.new = phylo_cor_new),
+#                                                                 data=body.CV.final,
+#                                                                 method="REML",
+#                                                                 test="t")
 # 
 # save(metaregression_unimoderator_migratory.nointercept,
 #      file="models/metaregression_unimoderator_migratory_nointercept.RData")
 load("models/metaregression_unimoderator_migratory_nointercept.RData")
 
-# getting marginal R2
-round(r2_ml(metaregression_unimoderator_migratory.nointercept)*100,2)
+# save(metaregression_unimoderator_migratory.nointercept_new,
+#      file="models/metaregression_unimoderator_migratory_nointercept_new.RData")
+load("models/metaregression_unimoderator_migratory_nointercept_new.RData")
 
-summary(metaregression_unimoderator_migratory.nointercept,3)
-round(exp(metaregression_unimoderator_migratory.nointercept$beta)*100,2)
-round(exp(metaregression_unimoderator_migratory.nointercept$ci.lb)*100,2)
-round(exp(metaregression_unimoderator_migratory.nointercept$ci.ub)*100,2)
+# getting marginal R2
+# round(r2_ml(metaregression_unimoderator_migratory.nointercept)*100,2)
+# 
+# summary(metaregression_unimoderator_migratory.nointercept,3)
+# round(exp(metaregression_unimoderator_migratory.nointercept$beta)*100,2)
+# round(exp(metaregression_unimoderator_migratory.nointercept$ci.lb)*100,2)
+# round(exp(metaregression_unimoderator_migratory.nointercept$ci.ub)*100,2)
+
+round(r2_ml(metaregression_unimoderator_migratory.nointercept_new)*100,2)
+
+summary(metaregression_unimoderator_migratory.nointercept_new,3)
+round(exp(metaregression_unimoderator_migratory.nointercept_new$beta)*100,2)
+round(exp(metaregression_unimoderator_migratory.nointercept_new$ci.lb)*100,2)
+round(exp(metaregression_unimoderator_migratory.nointercept_new$ci.ub)*100,2)
 
 
 ################################################################################
 # plotting results
 
-orchard.plot.migratory <- orchaRd::orchard_plot(metaregression_unimoderator_migratory, 
+orchard.plot.migratory <- orchaRd::orchard_plot(metaregression_unimoderator_migratory_new, 
+                                                #orchard.plot.migratory <- orchaRd::orchard_plot(metaregression_unimoderator_migratory, 
                                                 mod = "migratory", 
-                                                group = "species.updated.rep", 
+                                                group = "species.updated.new.rep", 
                                                 xlab = "Effect size (CV %)",
                                                 trunk.size = 1.85,
                                                 branch.size = 3.5,
@@ -1426,8 +1708,8 @@ orchard.plot.migratory.cropped <- orchard.plot.migratory +
                      breaks = seq(1,6,0.5))
 
 # # saving the figure
-# png(filename = 'figures/supplementary_figures/Figure_S7_Migratory_species_level.png', 
-#     width = 21, height = 10, units = 'cm', 
+# png(filename = 'figures/supplementary_figures/Figure_S7_Migratory_species_level.png',
+#     width = 21, height = 10, units = 'cm',
 #     res = 600)
 
 # supplementary material
@@ -1438,100 +1720,130 @@ orchard.plot.migratory +
                      breaks = seq(0,14,1)) +
   theme(axis.text.y = element_text(size = 7.5))
 
-#dev.off()
+# dev.off()
 
 ################################################################################
 # FEEDING AND MIGRATORY: species-specific
 # S4. Calculating total heterogeneity explained
 ################################################################################
 
-# metaregression_feeding_and_migratory <- rma.mv(yi = yi,
-#                                                V = VCV.0.50.study_ID,
-#                                                mod = ~ 1 +
-#                                                  migratory +
-#                                                  feeding.type,
-#                                                random = list(~ 1 | species.updated.rep,
-#                                                              ~ 1 | species.updated,
-#                                                              ~ 1 | study_ID,
-#                                                              ~ 1 | population_ID,
-#                                                              ~ 1 | pair_ID,
-#                                                              ~ 1 | effectsize_ID),
-#                                                R = list(species.updated = phylo_cor),
-#                                                data=body.CV.final,
-#                                                method="REML",
-#                                                test="t")
+# metaregression_feeding_and_migratory_new <- rma.mv(yi = yi,
+#                                                    #metaregression_feeding_and_migratory <- rma.mv(yi = yi,
+#                                                    V = VCV.0.50.study_ID,
+#                                                    mod = ~ 1 +
+#                                                      migratory +
+#                                                      feeding.type,
+#                                                    random = list(~ 1 | species.updated.new.rep,
+#                                                                  ~ 1 | species.updated.new,
+#                                                                  # ~ 1 | species.updated.rep,
+#                                                                  # ~ 1 | species.updated,
+#                                                                  ~ 1 | study_ID,
+#                                                                  ~ 1 | population_ID,
+#                                                                  ~ 1 | pair_ID,
+#                                                                  ~ 1 | effectsize_ID),
+#                                                    #R = list(species.updated = phylo_cor),
+#                                                    R = list(species.updated.new = phylo_cor_new),
+#                                                    data=body.CV.final,
+#                                                    method="REML",
+#                                                    test="t")
 # 
 # save(metaregression_feeding_and_migratory,
 #      file="models/metaregression_feeding_and_migratory.RData")
 load("models/metaregression_feeding_and_migratory.RData")
 
+# save(metaregression_feeding_and_migratory_new,
+#      file="models/metaregression_feeding_and_migratory_new.RData")
+load("models/metaregression_feeding_and_migratory_new.RData")
 
-summary(metaregression_feeding_and_migratory,3)
-round(r2_ml(metaregression_feeding_and_migratory)*100,2)
+# summary(metaregression_feeding_and_migratory,3)
+# round(r2_ml(metaregression_feeding_and_migratory)*100,2)
+summary(metaregression_feeding_and_migratory_new,3)
+round(r2_ml(metaregression_feeding_and_migratory_new)*100,2)
 
 
 ################################################################################
 # FEEDING TYPE: population-specific
 ################################################################################
 
-# metaregression_unimoderator_feeding_type_pop_level <- rma.mv(yi = yi,
-#                                                              V = VCV.0.50.study_ID,
-#                                                              mod = ~ 1 +
-#                                                                feeding.type.pop.level,
-#                                                              random = list(~ 1 | species.updated.rep,
-#                                                                            ~ 1 | species.updated,
-#                                                                            ~ 1 | study_ID,
-#                                                                            ~ 1 | population_ID,
-#                                                                            ~ 1 | pair_ID,
-#                                                                            ~ 1 | effectsize_ID),
-#                                                              R = list(species.updated = phylo_cor),
-#                                                              data=body.CV.final,
-#                                                              method="REML",
-#                                                              test="t")
+# metaregression_unimoderator_feeding_type_pop_level_new <- rma.mv(yi = yi,
+#                                                                  #metaregression_unimoderator_feeding_type_pop_level <- rma.mv(yi = yi,
+#                                                                  V = VCV.0.50.study_ID,
+#                                                                  mod = ~ 1 +
+#                                                                    feeding.type.pop.level,
+#                                                                  random = list(~ 1 | species.updated.new.rep,
+#                                                                                ~ 1 | species.updated.new,
+#                                                                                # ~ 1 | species.updated.rep,
+#                                                                                # ~ 1 | species.updated,
+#                                                                                ~ 1 | study_ID,
+#                                                                                ~ 1 | population_ID,
+#                                                                                ~ 1 | pair_ID,
+#                                                                                ~ 1 | effectsize_ID),
+#                                                                  #R = list(species.updated = phylo_cor),
+#                                                                  R = list(species.updated.new = phylo_cor_new),
+#                                                                  data=body.CV.final,
+#                                                                  method="REML",
+#                                                                  test="t")
 # 
 # save(metaregression_unimoderator_feeding_type_pop_level,
 #      file="models/metaregression_unimoderator_feeding_type_pop_level.RData")
 load("models/metaregression_unimoderator_feeding_type_pop_level.RData")
 
+# save(metaregression_unimoderator_feeding_type_pop_level_new,
+#      file="models/metaregression_unimoderator_feeding_type_pop_level_new.RData")
+load("models/metaregression_unimoderator_feeding_type_pop_level_new.RData")
 
-summary(metaregression_unimoderator_feeding_type_pop_level,3)
+# summary(metaregression_unimoderator_feeding_type_pop_level,3)
+summary(metaregression_unimoderator_feeding_type_pop_level_new,3)
 
 # getting marginal R2
-round(r2_ml(metaregression_unimoderator_feeding_type_pop_level)*100,2)
+# round(r2_ml(metaregression_unimoderator_feeding_type_pop_level)*100,2)
+round(r2_ml(metaregression_unimoderator_feeding_type_pop_level_new)*100,2)
 
 
 # the equivalent model but without intercept
-# metaregression_unimoderator_feeding_type_pop_level.nointercept <- rma.mv(yi = yi,
-#                                                                          V = VCV.0.50.study_ID,
-#                                                                          mod = ~ -1 +
-#                                                                            feeding.type.pop.level,
-#                                                                          random = list(~ 1 | species.updated.rep,
-#                                                                                        ~ 1 | species.updated,
-#                                                                                        ~ 1 | study_ID,
-#                                                                                        ~ 1 | population_ID,
-#                                                                                        ~ 1 | pair_ID,
-#                                                                                        ~ 1 | effectsize_ID),
-#                                                                          R = list(species.updated = phylo_cor),
-#                                                                          data=body.CV.final,
-#                                                                          method="REML",
-#                                                                          test="t")
+# metaregression_unimoderator_feeding_type_pop_level.nointercept_new <- rma.mv(yi = yi,
+#                                                                              #metaregression_unimoderator_feeding_type_pop_level.nointercept <- rma.mv(yi = yi,
+#                                                                              V = VCV.0.50.study_ID,
+#                                                                              mod = ~ -1 +
+#                                                                                feeding.type.pop.level,
+#                                                                              random = list(~ 1 | species.updated.new.rep,
+#                                                                                            ~ 1 | species.updated.new,
+#                                                                                            # ~ 1 | species.updated.rep,
+#                                                                                            # ~ 1 | species.updated,
+#                                                                                            ~ 1 | study_ID,
+#                                                                                            ~ 1 | population_ID,
+#                                                                                            ~ 1 | pair_ID,
+#                                                                                            ~ 1 | effectsize_ID),
+#                                                                              #R = list(species.updated = phylo_cor),
+#                                                                              R = list(species.updated.new = phylo_cor_new),
+#                                                                              data=body.CV.final,
+#                                                                              method="REML",
+#                                                                              test="t")
 # 
 # save(metaregression_unimoderator_feeding_type_pop_level.nointercept,
 #      file="models/metaregression_unimoderator_feeding_type_pop_level_nointercept.RData")
 load("models/metaregression_unimoderator_feeding_type_pop_level_nointercept.RData")
 
-summary(metaregression_unimoderator_feeding_type_pop_level.nointercept,3)
-round(exp(metaregression_unimoderator_feeding_type_pop_level.nointercept$beta)*100,2)
-round(exp(metaregression_unimoderator_feeding_type_pop_level.nointercept$ci.lb)*100,2)
-round(exp(metaregression_unimoderator_feeding_type_pop_level.nointercept$ci.ub)*100,2)
+# save(metaregression_unimoderator_feeding_type_pop_level.nointercept_new,
+#      file="models/metaregression_unimoderator_feeding_type_pop_level_nointercept_new.RData")
+load("models/metaregression_unimoderator_feeding_type_pop_level_nointercept_new.RData")
 
+# summary(metaregression_unimoderator_feeding_type_pop_level.nointercept,3)
+# round(exp(metaregression_unimoderator_feeding_type_pop_level.nointercept$beta)*100,2)
+# round(exp(metaregression_unimoderator_feeding_type_pop_level.nointercept$ci.lb)*100,2)
+# round(exp(metaregression_unimoderator_feeding_type_pop_level.nointercept$ci.ub)*100,2)
+summary(metaregression_unimoderator_feeding_type_pop_level.nointercept_new,3)
+round(exp(metaregression_unimoderator_feeding_type_pop_level.nointercept_new$beta)*100,2)
+round(exp(metaregression_unimoderator_feeding_type_pop_level.nointercept_new$ci.lb)*100,2)
+round(exp(metaregression_unimoderator_feeding_type_pop_level.nointercept_new$ci.ub)*100,2)
 
 ################################################################################
 # plotting results
 
-orchard.plot.feeding.type.pop.level <- orchaRd::orchard_plot(metaregression_unimoderator_feeding_type_pop_level, 
+orchard.plot.feeding.type.pop.level <- orchaRd::orchard_plot(metaregression_unimoderator_feeding_type_pop_level_new, 
+                                                             #orchard.plot.feeding.type.pop.level <- orchaRd::orchard_plot(metaregression_unimoderator_feeding_type_pop_level, 
                                                              mod = "feeding.type.pop.level", 
-                                                             group = "species.updated.rep", 
+                                                             group = "species.updated.new.rep", 
                                                              xlab = "Effect size (CV %)",
                                                              trunk.size = 1.85,
                                                              branch.size = 3.5,
@@ -1547,8 +1859,8 @@ orchard.plot.feeding.type.pop.level.cropped <- orchard.plot.feeding.type.pop.lev
                      breaks = seq(1,6,0.5))
 
 # # saving the figure
-# png(filename = 'figures/supplementary_figures/Figure_S8_Feeding_population_level.png', 
-#     width = 21, height = 10, units = 'cm', 
+# png(filename = 'figures/supplementary_figures/Figure_S8_Feeding_population_level.png',
+#     width = 21, height = 10, units = 'cm',
 #     res = 600)
 
 # supplementary material
@@ -1558,73 +1870,102 @@ orchard.plot.feeding.type.pop.level +
   scale_y_continuous(limits = c(0,14),
                      breaks = seq(0,14,1))
 
-#dev.off()
+# dev.off()
 
 ################################################################################
 # MIGRATORY: population-specific
 ################################################################################
 
-# metaregression_unimoderator_migratory_pop_level <- rma.mv(yi = yi,
-#                                                           V = VCV.0.50.study_ID,
-#                                                           mod = ~ 1 +
-#                                                             migratory.pop.level,
-#                                                           random = list(~ 1 | species.updated.rep,
-#                                                                         ~ 1 | species.updated,
-#                                                                         ~ 1 | study_ID,
-#                                                                         ~ 1 | population_ID,
-#                                                                         ~ 1 | pair_ID,
-#                                                                         ~ 1 | effectsize_ID),
-#                                                           R = list(species.updated = phylo_cor),
-#                                                           data=body.CV.final,
-#                                                           method="REML",
-#                                                           test="t")
+# metaregression_unimoderator_migratory_pop_level_new <- rma.mv(yi = yi,
+#                                                               #metaregression_unimoderator_migratory_pop_level <- rma.mv(yi = yi,
+#                                                               V = VCV.0.50.study_ID,
+#                                                               mod = ~ 1 +
+#                                                                 migratory.pop.level,
+#                                                               random = list(~ 1 | species.updated.new.rep,
+#                                                                             ~ 1 | species.updated.new,
+#                                                                             # ~ 1 | species.updated.rep,
+#                                                                             # ~ 1 | species.updated,
+#                                                                             ~ 1 | study_ID,
+#                                                                             ~ 1 | population_ID,
+#                                                                             ~ 1 | pair_ID,
+#                                                                             ~ 1 | effectsize_ID),
+#                                                               #R = list(species.updated = phylo_cor),
+#                                                               R = list(species.updated.new = phylo_cor_new),
+#                                                               data=body.CV.final,
+#                                                               method="REML",
+#                                                               test="t")
 # 
 # save(metaregression_unimoderator_migratory_pop_level,
 #      file="models/metaregression_unimoderator_migratory_pop_level.RData")
 load("models/metaregression_unimoderator_migratory_pop_level.RData")
 
+# save(metaregression_unimoderator_migratory_pop_level_new,
+#      file="models/metaregression_unimoderator_migratory_pop_level_new.RData")
+load("models/metaregression_unimoderator_migratory_pop_level_new.RData")
 
-summary(metaregression_unimoderator_migratory_pop_level,3)
+
+# summary(metaregression_unimoderator_migratory_pop_level,3)
+summary(metaregression_unimoderator_migratory_pop_level_new,3)
+
+# # getting marginal R2
+# round(r2_ml(metaregression_unimoderator_migratory_pop_level)*100,2)
 
 # getting marginal R2
-round(r2_ml(metaregression_unimoderator_migratory_pop_level)*100,2)
+round(r2_ml(metaregression_unimoderator_migratory_pop_level_new)*100,2)
 
 
 # the equivalent model but without intercept 
-# metaregression_unimoderator_migratory_pop_level.nointercept <- rma.mv(yi = yi,
-#                                                                       V = VCV.0.50.study_ID,
-#                                                                       mod = ~ -1 +
-#                                                                         migratory.pop.level,
-#                                                                       random = list(~ 1 | species.updated.rep,
-#                                                                                     ~ 1 | species.updated,
-#                                                                                     ~ 1 | study_ID,
-#                                                                                     ~ 1 | population_ID,
-#                                                                                     ~ 1 | pair_ID,
-#                                                                                     ~ 1 | effectsize_ID),
-#                                                                       R = list(species.updated = phylo_cor),
-#                                                                       data=body.CV.final,
-#                                                                       method="REML",
-#                                                                       test="t")
+# metaregression_unimoderator_migratory_pop_level.nointercept_new <- rma.mv(yi = yi,
+#                                                                           #metaregression_unimoderator_migratory_pop_level.nointercept <- rma.mv(yi = yi,
+#                                                                           V = VCV.0.50.study_ID,
+#                                                                           mod = ~ -1 +
+#                                                                             migratory.pop.level,
+#                                                                           random = list(~ 1 | species.updated.new.rep,
+#                                                                                         ~ 1 | species.updated.new,
+#                                                                                         # ~ 1 | species.updated.rep,
+#                                                                                         # ~ 1 | species.updated,
+#                                                                                         ~ 1 | study_ID,
+#                                                                                         ~ 1 | population_ID,
+#                                                                                         ~ 1 | pair_ID,
+#                                                                                         ~ 1 | effectsize_ID),
+#                                                                           #R = list(species.updated = phylo_cor),
+#                                                                           R = list(species.updated.new = phylo_cor_new),
+#                                                                           data=body.CV.final,
+#                                                                           method="REML",
+#                                                                           test="t")
 # 
 # save(metaregression_unimoderator_migratory_pop_level.nointercept,
 #      file="models/metaregression_unimoderator_migratory_pop_level_nointercept.RData")
 load("models/metaregression_unimoderator_migratory_pop_level_nointercept.RData")
 
-# getting marginal R2
-round(r2_ml(metaregression_unimoderator_migratory_pop_level.nointercept)*100,2)
+# save(metaregression_unimoderator_migratory_pop_level.nointercept_new,
+#      file="models/metaregression_unimoderator_migratory_pop_level_nointercept_new.RData")
+load("models/metaregression_unimoderator_migratory_pop_level_nointercept_new.RData")
 
-summary(metaregression_unimoderator_migratory_pop_level.nointercept,3)
-round(exp(metaregression_unimoderator_migratory_pop_level.nointercept$beta)*100,2)
-round(exp(metaregression_unimoderator_migratory_pop_level.nointercept$ci.lb)*100,2)
-round(exp(metaregression_unimoderator_migratory_pop_level.nointercept$ci.ub)*100,2)
+# # getting marginal R2
+# round(r2_ml(metaregression_unimoderator_migratory_pop_level.nointercept)*100,2)
+# 
+# summary(metaregression_unimoderator_migratory_pop_level.nointercept,3)
+# round(exp(metaregression_unimoderator_migratory_pop_level.nointercept$beta)*100,2)
+# round(exp(metaregression_unimoderator_migratory_pop_level.nointercept$ci.lb)*100,2)
+# round(exp(metaregression_unimoderator_migratory_pop_level.nointercept$ci.ub)*100,2)
+
+# getting marginal R2
+round(r2_ml(metaregression_unimoderator_migratory_pop_level.nointercept_new)*100,2)
+
+summary(metaregression_unimoderator_migratory_pop_level.nointercept_new,3)
+round(exp(metaregression_unimoderator_migratory_pop_level.nointercept_new$beta)*100,2)
+round(exp(metaregression_unimoderator_migratory_pop_level.nointercept_new$ci.lb)*100,2)
+round(exp(metaregression_unimoderator_migratory_pop_level.nointercept_new$ci.ub)*100,2)
 
 
 ################################################################################
 # plotting results
 
-orchard.plot.migratory.pop.level <- orchaRd::orchard_plot(metaregression_unimoderator_migratory_pop_level, 
+orchard.plot.migratory.pop.level <- orchaRd::orchard_plot(metaregression_unimoderator_migratory_pop_level_new, 
+                                                          #orchard.plot.migratory.pop.level <- orchaRd::orchard_plot(metaregression_unimoderator_migratory_pop_level, 
                                                           mod = "migratory.pop.level", 
-                                                          group = "species.updated.rep", 
+                                                          group = "species.updated.new.rep", 
                                                           xlab = "Effect size (CV %)",
                                                           trunk.size = 1.85,
                                                           branch.size = 3.5,
@@ -1640,8 +1981,8 @@ orchard.plot.migratory.pop.level.cropped <- orchard.plot.migratory.pop.level +
                      breaks = seq(1,6,0.5))
 
 # # saving the figure
-# png(filename = 'figures/supplementary_figures/Figure_S9_Migratory_population_level.png', 
-#     width = 21, height = 10, units = 'cm', 
+# png(filename = 'figures/supplementary_figures/Figure_S9_Migratory_population_level.png',
+#     width = 21, height = 10, units = 'cm',
 #     res = 600)
 
 # supplementary material
@@ -1651,7 +1992,7 @@ orchard.plot.migratory.pop.level +
   scale_y_continuous(limits = c(0,14),
                      breaks = seq(0,14,1))
 
-#dev.off()
+# dev.off()
 
 
 ################################################################################
@@ -1659,21 +2000,25 @@ orchard.plot.migratory.pop.level +
 # S4. Calculating total heterogeneity explained
 ################################################################################
 
-# metaregression_feeding_and_migratory_pop_level <- rma.mv(yi = yi,
-#                                                             V = VCV.0.50.study_ID,
-#                                                             mod = ~ 1 +
-#                                                               migratory.pop.level +
-#                                                               feeding.type.pop.level,
-#                                                             random = list(~ 1 | species.updated.rep,
-#                                                                           ~ 1 | species.updated,
-#                                                                           ~ 1 | study_ID,
-#                                                                           ~ 1 | population_ID,
-#                                                                           ~ 1 | pair_ID,
-#                                                                           ~ 1 | effectsize_ID),
-#                                                             R = list(species.updated = phylo_cor),
-#                                                             data=body.CV.final,
-#                                                             method="REML",
-#                                                             test="t")
+metaregression_feeding_and_migratory_pop_level_new <- rma.mv(yi = yi,
+                                                             #metaregression_feeding_and_migratory_pop_level <- rma.mv(yi = yi,
+                                                             V = VCV.0.50.study_ID,
+                                                             mod = ~ 1 +
+                                                               migratory.pop.level +
+                                                               feeding.type.pop.level,
+                                                             random = list(~ 1 | species.updated.new.rep,
+                                                                           ~ 1 | species.updated.new,
+                                                                           # ~ 1 | species.updated.rep,
+                                                                           # ~ 1 | species.updated,
+                                                                           ~ 1 | study_ID,
+                                                                           ~ 1 | population_ID,
+                                                                           ~ 1 | pair_ID,
+                                                                           ~ 1 | effectsize_ID),
+                                                             #R = list(species.updated = phylo_cor),
+                                                             R = list(species.updated.new = phylo_cor_new),
+                                                             data=body.CV.final,
+                                                             method="REML",
+                                                             test="t")
 # 
 # save(metaregression_feeding_and_migratory_pop_level,
 #      file="models/metaregression_feeding_and_migratory_pop_level.RData")
@@ -1708,4 +2053,3 @@ orchard.plot.feeding.type.cropped +
         axis.text.y = element_text(angle=90, vjust=0.5, hjust=0.5, size = 8),
         axis.title = element_text(size = 16))
 
-#dev.off()
