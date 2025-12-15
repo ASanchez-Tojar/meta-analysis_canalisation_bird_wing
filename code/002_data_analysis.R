@@ -1266,8 +1266,11 @@ p.sigma <- ggplot(h_status_new, aes(levels, sigma2s)) +
   scale_y_continuous(labels = scales::number_format(accuracy = 0.001)) + # https://stackoverflow.com/questions/38722202/how-do-i-change-the-number-of-decimal-places-on-axis-labels-in-ggplot2
   theme_bw() +
   theme(legend.background = element_blank(),
-        axis.text = element_text(size = 12, color = "black"),
-        axis.title = element_text(size = 12, color = "black")
+        # axis.text = element_text(size = 12, color = "black"),
+        # axis.title = element_text(size = 12, color = "black")
+        axis.title.x = element_blank(),
+        axis.text.x  = element_blank(),
+        axis.ticks.x = element_blank()
   )
 
 # I2
@@ -1281,8 +1284,11 @@ p.I2 <- ggplot(h_status_new, aes(levels, I2s_Shinichi/100)) +
        title = "Source of heterogeneity") + 
   theme_bw() +
   theme(legend.background = element_blank(),
-        axis.text = element_text(size = 12, color = "black"),
-        axis.title = element_text(size = 12, color = "black")
+        # axis.text = element_text(size = 12, color = "black"),
+        # axis.title = element_text(size = 12, color = "black")
+        axis.title.x = element_blank(),
+        axis.text.x  = element_blank(),
+        axis.ticks.x = element_blank()
   ) 
 
 # CV
@@ -1319,19 +1325,33 @@ p.M <- ggplot(h_status_new, aes(x = levels, y = Ms)) +
 
 # info here: https://patchwork.data-imaginist.com/articles/guides/layout.html
 
-# # saving the figure
-# png(filename = 'figures/supplementary_figures/Figure_S4_Heterogeneity_pluralistic_approach.png',
-#     width = 19, height = 19, units = 'cm',
-#     res = 600)
+
+
+p.CV <- p.CV +
+  theme(
+    axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1)
+  )
+
+p.M <- p.M +
+  theme(
+    axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1)
+  )
+
+# saving the figure
+png(filename = 'figures/supplementary_figures/Figure_S4_Heterogeneity_pluralistic_approach.png',
+    width = 19, height = 19, units = 'cm',
+    res = 600)
 
 p.sigma + p.I2 + p.CV + p.M + 
   plot_layout(ncol = 2, nrow = 2,
-              axes = "collect") + 
-  plot_annotation(tag_levels = "A") & 
+              axes = "keep") + 
+  plot_annotation(tag_levels = "A") &
   theme(plot.tag = element_text(face = "bold"),
-        axis.text.x = element_text(angle=45, vjust=1.0, hjust=1))
+        axis.text.y = element_text(size = 10, colour = "black"))
+  # theme(plot.tag = element_text(face = "bold"),
+  #       axis.text.x = element_text(angle=45, vjust=1.0, hjust=1))
 
-# dev.off()
+dev.off()
 
 
 ################################################################################
