@@ -33,7 +33,7 @@ rm(list=ls())
 ################################################################################
 
 # importing final dataset
-body.CV.final <- read.csv("data/final/04_final_full_and_clean_bird_wing_size_dataset.csv",
+body.CV.final <- read.csv("data/final/04B_final_full_and_clean_bird_wing_size_dataset.csv",
                           header=T,sep=",")
 
 # quick view
@@ -42,7 +42,7 @@ summary(body.CV.final)
 
 
 # converting some variables types to factors
-cols.factors <- c("population_ID","species.updated","species",
+cols.factors <- c("population_ID","species.updated.new","species.updated","species",
                   "study_ID","reference_link","subset",
                   "trait","unit","measurement_notes",
                   "pair_ID","sex","migratory","feeding.type",
@@ -59,6 +59,7 @@ summary(body.CV.final)
 # generating a new species variable to account for repeated values for some 
 # species + phylogeny (sensu Cinar et al. 2020, MEE)
 body.CV.final$species.updated.rep <- body.CV.final$species.updated
+body.CV.final$species.updated.new.rep <- body.CV.final$species.updated.new # new phylogenetic data
 
 # generating a unit level effect to model residual/within-study variance
 body.CV.final$effectsize_ID <- 1:nrow(body.CV.final)
@@ -69,6 +70,7 @@ body.CV.final$effectsize_ID <- 1:nrow(body.CV.final)
 ################################################################################
 
 # calculating lnCV. Note that escalc() includes a small-size bias correction
+# notice that we could have imported the data 05_ instead, but it should not matter!
 body.CV.final <- escalc(measure = "CVLN",
                         mi=mean,
                         sdi=SD,
@@ -94,12 +96,23 @@ load("data/phylogeny/tree_random_20240909.Rdata")
 # phylogenetic matrix: phylo_cor
 load("data/phylogeny/phylo_cor_20240909.Rdata")
 
+# tree: mytree_ultra The tree based on the new McTavish et al. 2025, constructed 
+# after peer-review)
+load("data/phylogeny/tree_McTavish2025.Rdata")
+
+# phylogenetic matrix: phylo_cor_new (The matrix based on the new McTavish et 
+# al. 2025 tree constructed after peer-review)
+load("data/phylogeny/phylo_cor_McTavish2025.Rdata")
+
 
 ################################################################################
 # Adding extra taxonomic information: genus, family, order
 ################################################################################
 
 # adding extra taxonomic information
+# I am not updating this to the new list of species because there is not expected
+# change in terms of the order in which the species will be based on the updated
+# tree.
 name_list <- unique(as.character(body.CV.final$species.updated))
 
 # code kindly provided by Matt Grainger (Thank you!)
@@ -182,7 +195,8 @@ agg.es.species <- as.data.frame(escalc(measure = "CVLN",
                                        sdi = SD, 
                                        ni = n,
                                        data = body.CV.final) %>%
-                                  aggregate(cluster = species.updated, # using species.updated as clustering variable
+                                  # aggregate(cluster = species.updated, # using species.updated as clustering variable
+                                  aggregate(cluster = species.updated.new, # using species.updated.new as clustering variable
                                             struct = "CS", # specifying varcovar compound symmetric structure of the sampling errors
                                             rho = 0.5, # with an assumed correlation of 0.5
                                             addk = TRUE))
@@ -190,28 +204,41 @@ agg.es.species <- as.data.frame(escalc(measure = "CVLN",
 agg.es.species$CV <- exp(agg.es.species$yi)*100
 
 # first basic tree to build upon
-full.tree <- ggtree(tree_random, 
+# full.tree <- ggtree(tree_random, 
+#                     layout='circular',
+#                     size = 1.05)# + 
+# #ggtitle("Phylogenetic tree (species-level)")
+# Using the new and updated tree: mytree_ultra, for which class phylo has to be
+# explicitly assigned
+class(mytree_ultra) <- "phylo"
+full.tree <- ggtree(mytree_ultra, 
                     layout='circular',
-                    size = 1.05)# + 
-#ggtitle("Phylogenetic tree (species-level)")
+                    size = 0.9)# + 
+                    #size = 1.05)# + 
 
 full.tree
 
 
 #fulltree.1 <- full.tree %<+% body.CV.final[,c("species.updated","order","CV")]
-fulltree.1 <- full.tree %<+% agg.es.species[,c("species.updated","order","CV")]
+#fulltree.1 <- full.tree %<+% agg.es.species[,c("species.updated","order","CV")]
+fulltree.1 <- full.tree %<+% agg.es.species[,c("species.updated.new","order")]#,"CV")]
 fulltree.1
 
 fulltree.2 <- fulltree.1 + 
-  geom_tippoint(aes(color = order, size = CV)) + 
+  #geom_tippoint(aes(color = order, size = CV)) + 
+  geom_tippoint(aes(color = order)) + 
   scale_size(range=c(0.5,3)) +
-  geom_tiplab(size = 2.2, offset = .9, aes(angle = angle)) +
-  guides(colour = guide_legend(title = "Order"),
-         size = guide_legend(title = "Wing length CV (%)")) +
-  theme(legend.position = c(1, 0.52),
+  #geom_tiplab(size = 2.2, offset = .9, aes(angle = angle)) +
+  geom_tiplab(size = 2.2, offset = 0.01, aes(angle = angle)) +
+  # guides(colour = guide_legend(title = "Order"),
+  #        size = guide_legend(title = "Wing length CV (%)")) +
+  guides(colour = guide_legend(title = "Order")) +
+  theme(legend.position = c(1.13, 0.52),
         #legend.position = "right",
         #legend.justification = c(1, 0.5),
-        plot.margin = unit(c(t=-2,r=-4,b=-2,l=-8), "cm"),
+        #plot.margin = unit(c(t=-2,r=-4,b=-2,l=-8), "cm"),
+        plot.margin = margin(t=20, r=40, b=18, l=0),
+        #plot.margin = margin(5, 5, 5, 5),
         legend.key.size = unit(0.55, units = "cm"),
         legend.text = element_text(size = 8),
         legend.title = element_text(size = 10, face = "bold"),
@@ -219,56 +246,73 @@ fulltree.2 <- fulltree.1 +
 #scale_size_continuous(range = c(3, 10))
 fulltree.2
 
-# checking nodes
-tree_random$tip.label
+# # checking nodes
+# # tree_random$tip.label
+# mytree_ultra$tip.label
+# 
+# # generating a list of node positions where to put the silhouettes
+# node.list <- c(11,22,28,43,55,68,
+#                75,87,97,102,106,122,
+#                132,142,144,152,159,
+#                161,168)
+# # here is the unique ids (from the phylopic website link) for each node
+# image.list <- c("ec11f62e-ed3e-49bb-bcff-4e47b281d378", # turdus merula node: 11
+#                 "19f3f55c-f942-464b-a61f-27794b9000f7", # geospiza fortis node: 20
+#                 "fb0ae249-66cc-4fce-b668-22ffabcb6bdc", # emberiza node: 28
+#                 "3a4cdd72-e553-40ad-838e-3b23037b2010", # passer domesticus node: 43
+#                 "49d94179-c795-4a53-938b-9c4d2d2ac692", # aegithalos caudatus node: 55
+#                 "784ed1b5-0217-421c-8397-289c7cbb472a", # aludinae node: 68
+#                 "715f6434-de54-475b-9653-4b4db6864bdc", # cyanopica cooki node: 73
+#                 "ddd5783c-ded5-48f2-a07d-cc37c83b227b", # dendrocopos node: 90
+#                 "63f337b6-8a58-4939-ba8b-f1bd3b8c1037", # milvus migrans node: 93
+#                 "ef6d1b7a-15fe-46cc-aa1e-2598d767895c", # calidris node: 102
+#                 "b99b9cef-88bf-455f-8190-675aa11c1fb2", # calidris pugnax node: 106
+#                 "18ff6244-3ec9-4750-a29a-aaad7e2f14ad", # fratercula arctica node: 122
+#                 "deba1d91-daa8-40a6-8d48-7a9f295bc662", # podiceps node: 132
+#                 "56554944-1a1c-4281-a6e5-49ce2de9b2f4", # pterodroma node: 142
+#                 "9171cd2b-3afc-46f4-9ee1-c6515de0378c", # phaethon rubricauda node: 145
+#                 "cd5ca1a2-b0a9-4ce9-b163-5c004e327d9d", # rallus aquaticus node: 152
+#                 "737a0176-deee-4a0f-a721-11534ff2b0c5", # apus pallidus node: 159
+#                 "42f85a2b-7517-439a-8dc3-b745a35c035d", # lagopus lagopus node: 161
+#                 "ad8b9af1-d189-4fb7-b555-fcd7f27afccb") # branta leucopsis node: 168
+# 
+# # generating a dataset for adding the images
+# dt <- data.frame(node = node.list,
+#                  name = rep("sp",length(node.list)),
+#                  image = image.list) 
+# fulltree.3 <- fulltree.2 + geom_cladelab(data = dt, 
+#                                          mapping = aes(node = node, 
+#                                                        label = name, 
+#                                                        image = image), 
+#                                          geom = "phylopic", 
+#                                          imagecolor = "black", 
+#                                          offset=1.5, 
+#                                          #offset=20, 
+#                                          #offset.text=-3
+#                                          offset.text=-0.2)
 
-# generating a list of node positions where to put the silhouettes
-node.list <- c(11,22,28,43,55,68,
-               75,87,97,102,106,122,
-               132,142,144,152,159,
-               161,168)
-# here is the unique ids (from the phylopic website link) for each node
-image.list <- c("ec11f62e-ed3e-49bb-bcff-4e47b281d378", # turdus merula node: 11
-                "19f3f55c-f942-464b-a61f-27794b9000f7", # geospiza fortis node: 20
-                "fb0ae249-66cc-4fce-b668-22ffabcb6bdc", # emberiza node: 28
-                "3a4cdd72-e553-40ad-838e-3b23037b2010", # passer domesticus node: 43
-                "49d94179-c795-4a53-938b-9c4d2d2ac692", # aegithalos caudatus node: 55
-                "784ed1b5-0217-421c-8397-289c7cbb472a", # aludinae node: 68
-                "715f6434-de54-475b-9653-4b4db6864bdc", # cyanopica cooki node: 73
-                "ddd5783c-ded5-48f2-a07d-cc37c83b227b", # dendrocopos node: 90
-                "63f337b6-8a58-4939-ba8b-f1bd3b8c1037", # milvus migrans node: 93
-                "ef6d1b7a-15fe-46cc-aa1e-2598d767895c", # calidris node: 102
-                "b99b9cef-88bf-455f-8190-675aa11c1fb2", # calidris pugnax node: 106
-                "18ff6244-3ec9-4750-a29a-aaad7e2f14ad", # fratercula arctica node: 122
-                "deba1d91-daa8-40a6-8d48-7a9f295bc662", # podiceps node: 132
-                "56554944-1a1c-4281-a6e5-49ce2de9b2f4", # pterodroma node: 142
-                "9171cd2b-3afc-46f4-9ee1-c6515de0378c", # phaethon rubricauda node: 145
-                "cd5ca1a2-b0a9-4ce9-b163-5c004e327d9d", # rallus aquaticus node: 152
-                "737a0176-deee-4a0f-a721-11534ff2b0c5", # apus pallidus node: 159
-                "42f85a2b-7517-439a-8dc3-b745a35c035d", # lagopus lagopus node: 161
-                "ad8b9af1-d189-4fb7-b555-fcd7f27afccb") # branta leucopsis node: 168
-
-# generating a dataset for adding the images
-dt <- data.frame(node = node.list,
-                 name = rep("sp",length(node.list)),
-                 image = image.list) 
-fulltree.3 <- fulltree.2 + geom_cladelab(data = dt, 
-                                         mapping = aes(node = node, 
-                                                       label = name, 
-                                                       image = image), 
-                                         geom = "phylopic", 
-                                         imagecolor = "black", 
-                                         offset=20, offset.text=-3)
+# fulltree.2 <- fulltree.2 +
+#   scale_x_continuous(limits = c(-0.9, NA))
 
 # saving the figure
-png(filename = 'figures/Figure_1_Panel_1_Phylogenetic_tree_Species.png', 
-    width = 27, height = 21, units = 'cm', 
-    res = 600)
+# png(filename = 'figures/Figure_1_Panel_1_Phylogenetic_tree_Species.png', 
+#     width = 27, height = 21, units = 'cm', 
+#     res = 600)
+# 
+# #fulltree.3
+# fulltree.2
+# 
+# dev.off()
 
-fulltree.3
-
-dev.off()
-
+ggsave(
+  "figures/Figure_1_Panel_1_Phylogenetic_tree_Species.png",
+  plot = fulltree.2,
+  width = 27,
+  height = 21,
+  units = "cm",
+  dpi = 600,
+  bg = "white"
+)
 
 ################################################################################
 # Visualizing the phylogenetic correlation matrix
