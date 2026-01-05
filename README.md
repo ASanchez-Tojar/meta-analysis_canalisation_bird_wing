@@ -1,10 +1,12 @@
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18152048.svg)](https://doi.org/10.5281/zenodo.18152048)
+
 # Short title: Bird wing canalisation
 ## Title: Wing length canalisation and behaviour across birds: a phylogenetic meta-analysis of variance
 **Contributors:** Klaus Reinhold, Alfredo Sánchez-Tójar 
 
 **Date created:** March 2025
 
-**Identifer:** TBA
+**Identifer:** [10.5281/zenodo.18152048](http://doi.org/10.5281/zenodo.18152048)
 
 **Category:** Project
 
